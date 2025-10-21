@@ -3,19 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestão da 2ªCia do 18º BPM/I</title>
+  <title>Gestão 18º BPM/I</title>
   <style>
+    :root{
+      --amarelo:#FFFF00;
+      --cinza:#ccc;
+      --bg:#000;
+      --gap:20px;
+      --radius:10px;
+      --banner-max-h:600px;   /* altura máxima para desktop */
+      --banner-max-h-sm:350px;/* altura máxima para celulares */
+    }
+
+    *{box-sizing:border-box}
     body {
       margin: 0;
-      background-color: #000;
+      background-color: var(--bg);
       font-family: Arial, sans-serif;
-      color: yellow;
+      color: var(--amarelo);
       text-align: center;
     }
 
-    header img {
+    /* Banner com object-fit: contain (sem cortes) */
+    .banner-box {
       width: 100%;
-      height: auto;
+      max-height: var(--banner-max-h);
+      background-color: var(--bg);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .banner {
+      width: 100%;
+      height: 100%;
+      max-height: var(--banner-max-h);
+      object-fit: contain; /* Mostra tudo, sem cortar */
+      display: block;
+      background-color: var(--bg);
     }
 
     h1, h2 {
@@ -27,38 +53,44 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 15px;
-      margin: 20px 10px;
+      gap: var(--gap);
+      margin: 30px 10px;
     }
+
+    figure { margin: 0; }
 
     .link-section a img {
       width: 180px;
       max-width: 100%;
-      transition: transform 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border-radius: var(--radius);
     }
 
     .link-section a img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.6); /* brilho dourado */
-  border-radius: 10px;
-}
+      transform: scale(1.05);
+      box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.6);
+      cursor: pointer;
+    }
 
+    .caption {
+      font-size: 22px;
+      color: var(--amarelo);
+      margin-top: 10px;
     }
 
     footer {
       margin-top: 40px;
       font-size: 0.9em;
-      color: #ccc;
+      color: var(--cinza);
       padding: 20px;
     }
 
     @media (max-width: 600px) {
-      h1 {
-        font-size: 1.5em;
-      }
+      h1 { font-size: 1.5em; }
+      h2 { font-size: 1.2em; }
 
-      h2 {
-        font-size: 1.2em;
+      .banner-box, .banner {
+        max-height: var(--banner-max-h-sm);
       }
 
       .link-section {
@@ -67,7 +99,7 @@
       }
 
       .link-section a img {
-        width: 95%;
+        width: 90%;
         max-width: 360px;
       }
     }
@@ -75,101 +107,80 @@
 </head>
 <body>
 
+  <!-- Banner 1 -->
   <header>
-    <img src="topo.png" alt="Topo 18º BPM/I">
-    <h1>  Sistema de Gestão da 2ª Companhia</h1>
-
-
+    <div class="banner-box">
+      <img src="topo.png" class="banner" alt="Topo 18º BPM/I" loading="lazy">
+    </div>
+    <h1>Sistema de Gestão da 2ª Companhia</h1>
   </header>
 
-  <section>
- 
+  <!-- Bloco de atalhos principais -->
+  <section aria-label="Atalhos principais">
     <div class="link-section">
-      <a href="https://docs.google.com/spreadsheets/d/18vwJtRh2IAvsJvNEZtA1uSpHikW7cmuAwsfhUVTBr7c/edit?usp=sharing" target="_blank">
+      <a href="https://docs.google.com/spreadsheets/d/18vwJtRh2IAvsJvNEZtA1uSpHikW7cmuAwsfhUVTBr7c/edit?usp=sharing" target="_blank" rel="noopener">
         <figure>
-        <img src="pasta.png" width="200" height="200" alt="Ordens de Serviço">
-<figcaption class="caption"> <strong>Análise Criminal</strong></figcaption>
-</figure>
-<style>
-  .caption {
-    font-size:30px;
-    color: #FFFF00;
-  }
-</style>
-
+          <img src="pasta.png" alt="Análise Criminal" loading="lazy">
+          <figcaption class="caption"><strong>Análise Criminal</strong></figcaption>
+        </figure>
       </a>
-      <a href="https://drive.google.com/drive/folders/1xxyhzChozUNIYozhkGogJ4KkYixGolxr?usp=sharing" target="_blank">
+
+      <a href="https://drive.google.com/drive/folders/1xxyhzChozUNIYozhkGogJ4KkYixGolxr?usp=sharing" target="_blank" rel="noopener">
         <figure>
-        <img src="pasta.png" width="200" height="200" alt="Ordens de Serviço">
-<figcaption class="caption"> <strong>Ordens de Serviço</strong></figcaption>
-</figure>
-<style>
-  .caption {
-    font-size:30px;
-    color: #FFFF00;
-  }
-</style>
+          <img src="pasta.png" alt="Ordens de Serviço" loading="lazy">
+          <figcaption class="caption"><strong>Ordens de Serviço</strong></figcaption>
+        </figure>
       </a>
-      <a href="https://docs.google.com/spreadsheets/d/1_zKAEUIgF3DDnoMevwvCrqaIh-WtNQLvO2SQXovu_eU/edit?usp=sharing" target="_blank">
-        <figure>
-        <img src="pasta.png" width="200" height="200" alt="Estado Maior">
-<figcaption class="caption"> <strong>QAP</strong></figcaption>
-</figure>
-<style>
-  .caption {
-    font-size:30px;
-    color: #FFFF00;
-  }
-</style>
-</a>
-      <a href="https://docs.google.com/spreadsheets/d/1vT0B7PhLwElgYQEa6M0eUGQpP7EVnrSmxamf0QEB8wI/edit?usp=sharing" target="_blank">
-        <figure>
-        <img src="pasta.png" width="200" height="200" alt="Estado Maior">
-<figcaption class="caption"> <strong>MAPA DE VIATURAS</strong></figcaption>
-</figure>
-<style>
-  .caption {
-    font-size:30px;
-    color: #FFFF00;
-  }
-</style>
 
+      <a href="https://docs.google.com/spreadsheets/d/1_zKAEUIgF3DDnoMevwvCrqaIh-WtNQLvO2SQXovu_eU/edit?usp=sharing" target="_blank" rel="noopener">
+        <figure>
+          <img src="pasta.png" alt="QAP" loading="lazy">
+          <figcaption class="caption"><strong>QAP</strong></figcaption>
+        </figure>
       </a>
-      <a href="https://docs.google.com/spreadsheets/d/1BJcYe9m4GlRPfonB_W-LmM8ivXj1J2SG2QUO3hMnPeE/edit?usp=sharing" target="_blank">
+
+      <a href="https://docs.google.com/spreadsheets/d/1vT0B7PhLwElgYQEa6M0eUGQpP7EVnrSmxamf0QEB8wI/edit?usp=sharing" target="_blank" rel="noopener">
         <figure>
-        <img src="pasta.png" width="200" height="200" alt="Gestão pela Qualidade ">
-<figcaption class="caption"> <strong>Planejamento DEJEM</strong><figcaption>
-</figure>
-<style>
-  .caption {
-    font-size:30px;
-    color: #FFFF00;
-  }
-</style>
+          <img src="pasta.png" alt="Mapa de Viaturas" loading="lazy">
+          <figcaption class="caption"><strong>Mapa de Viaturas</strong></figcaption>
+        </figure>
+      </a>
 
-
+      <a href="https://docs.google.com/spreadsheets/d/1BJcYe9m4GlRPfonB_W-LmM8ivXj1J2SG2QUO3hMnPeE/edit?usp=sharing" target="_blank" rel="noopener">
+        <figure>
+          <img src="pasta.png" alt="Planejamento DEJEM" loading="lazy">
+          <figcaption class="caption"><strong>Planejamento DEJEM</strong></figcaption>
+        </figure>
       </a>
     </div>
   </section>
 
-
-<br>
-<br>
-<br>
-
-
-
+  <!-- Banner 2 -->
   <section>
-    <h2>Links úteis </h2>
+    <div class="banner-box">
+      <img src="pmdomes.png" class="banner" alt="PM do Mês" loading="lazy">
+    </div>
+    <h1>Destaques do mês</h1>
+  </section>
+
+  <!-- Links úteis -->
+  <section aria-label="Links úteis">
+    <h2>Links úteis</h2>
     <div class="link-section">
-      <a href="http://orion.intranet.policiamilitar.sp.gov.br/" target="_blank">
-        <img src="orion.png" alt="Orion">
+      <a href="https://sgo.policiamilitar.sp.gov.br/" target="_blank" rel="noopener" aria-label="Abrir SGO em nova aba">
+        <img src="sgo.png" alt="SGO" loading="lazy">
       </a>
-      <a href="https://www.infocrim.ssp.sp.gov.br/login" target="_blank">
-        <img src="infocrim.png" alt="Infocrim">
+
+      <a href="http://orion.intranet.policiamilitar.sp.gov.br/" target="_blank" rel="noopener" aria-label="Abrir Orion em nova aba">
+        <img src="orion.png" alt="Orion" loading="lazy">
       </a>
-      <a href="https://www.ssp.sp.gov.br/estatistica/dados-mensais" target="_blank">
-        <img src="ssp.png" alt="SSP">
+
+      <a href="https://www.infocrim.ssp.sp.gov.br/login" target="_blank" rel="noopener" aria-label="Abrir Infocrim em nova aba">
+        <img src="infocrim.png" alt="Infocrim" loading="lazy">
+      </a>
+
+      <a href="https://www.ssp.sp.gov.br/estatistica/dados-mensais" target="_blank" rel="noopener" aria-label="Abrir SSP Estatísticas em nova aba">
+        <img src="ssp.png" alt="SSP" loading="lazy">
       </a>
     </div>
   </section>
@@ -180,6 +191,3 @@
 
 </body>
 </html>
-
-
-
