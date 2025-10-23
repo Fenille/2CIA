@@ -11,8 +11,12 @@
       --bg:#000;
       --gap:20px;
       --radius:10px;
-      --banner-max-h:600px;   /* altura máxima para desktop */
-      --banner-max-h-sm:350px;/* altura máxima para celulares */
+      --banner-max-h:600px;
+      --banner-max-h-sm:350px;
+
+      /* Slideshow */
+      --dur: 5000ms;   /* 5 segundos por foto */
+      --fade: 1500ms;  /* transição suave 1.5s */
     }
 
     *{box-sizing:border-box}
@@ -22,9 +26,9 @@
       font-family: Arial, sans-serif;
       color: var(--amarelo);
       text-align: center;
+      overflow-x: hidden;
     }
 
-    /* Banner com object-fit: contain (sem cortes) */
     .banner-box {
       width: 100%;
       max-height: var(--banner-max-h);
@@ -39,15 +43,12 @@
       width: 100%;
       height: 100%;
       max-height: var(--banner-max-h);
-      object-fit: contain; /* Mostra tudo, sem cortar */
+      object-fit: contain;
       display: block;
       background-color: var(--bg);
     }
 
-    h1, h2 {
-      margin: 20px 10px;
-      font-size: 1.8em;
-    }
+    h1, h2 { margin: 20px 10px; font-size: 1.8em; }
 
     .link-section {
       display: flex;
@@ -55,13 +56,14 @@
       justify-content: center;
       gap: var(--gap);
       margin: 30px 10px;
+      position: relative;
+      z-index: 1; /* mantém os links visíveis */
     }
 
     figure { margin: 0; }
 
     .link-section a img {
       width: 180px;
-      max-width: 100%;
       transition: transform 0.3s, box-shadow 0.3s;
       border-radius: var(--radius);
     }
@@ -85,23 +87,108 @@
       padding: 20px;
     }
 
-    @media (max-width: 600px) {
-      h1 { font-size: 1.5em; }
-      h2 { font-size: 1.2em; }
+    /* ===== Slideshow ===== */
+    .slideshow-wrap{
+      width:100%;
+      max-height: var(--banner-max-h);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background: var(--bg);
+      overflow:hidden;
+      border-radius: var(--radius);
+      position:relative;
+      z-index:0;
+    }
 
-      .banner-box, .banner {
-        max-height: var(--banner-max-h-sm);
-      }
+    .slideshow{
+      position:relative;
+      width:100%;
+      height:100%;
+      aspect-ratio:16/9;         /* moldura estável */
+      background:#111;
+      overflow:hidden;
+    }
 
-      .link-section {
-        flex-direction: column;
-        align-items: center;
-      }
+    .slide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition: opacity var(--fade) ease-in-out;
+    }
 
-      .link-section a img {
-        width: 90%;
-        max-width: 360px;
-      }
+    /* Fundo desfocado que usa a própria foto (preenche faixas sem cortar) */
+    .slide::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image: var(--bg-img, none);
+      background-size: cover;
+      background-position: center;
+      filter: blur(24px) brightness(0.6);
+      transform: scale(1.1);  /* evita bordas do blur */
+    }
+
+    .slide img{
+      position:relative;
+      width:100%;
+      height:100%;
+      object-fit: contain;     /* SEM CORTES: mostra a foto inteira, vertical/horizontal */
+      display:block;
+      user-select:none;
+      pointer-events:none;
+      background: transparent;
+    }
+
+    .slide.active{ opacity:1; }
+
+    .dots{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:12px;
+      display:flex;
+      gap:8px;
+      z-index:5;
+    }
+
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: rgba(255,255,255,.45);
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .dot.active{
+      background:#fff;
+      transform: scale(1.2);
+    }
+
+    /* ===== Setas ===== */
+    .arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      font-size:2em;
+      color:#fff;
+      background:rgba(0,0,0,0.4);
+      border:none;
+      padding:10px 15px;
+      border-radius:50%;
+      cursor:pointer;
+      z-index:6;
+      transition:background .3s;
+      user-select:none;
+    }
+    .arrow:hover{ background:rgba(255,255,255,0.3); }
+    .arrow.left{ left:15px; }
+    .arrow.right{ right:15px; }
+
+    @media (max-width:600px){
+      h1{font-size:1.5em;}
+      h2{font-size:1.2em;}
+      .banner-box,.banner,.slideshow-wrap,.slideshow{max-height:var(--banner-max-h-sm);}
+      .link-section{flex-direction:column;align-items:center;}
+      .link-section a img{width:90%;max-width:360px;}
     }
   </style>
 </head>
@@ -110,85 +197,86 @@
   <!-- Banner 1 -->
   <header>
     <div class="banner-box">
-      <img src="topo.png" class="banner" alt="Topo 18º BPM/I" loading="lazy">
+      <img src="topo.png" class="banner" alt="Topo 18º BPM/I">
     </div>
     <h1>Sistema de Gestão da 2ª Companhia</h1>
   </header>
 
-  <!-- Bloco de atalhos principais -->
+  <!-- Atalhos -->
   <section aria-label="Atalhos principais">
     <div class="link-section">
       <a href="https://docs.google.com/spreadsheets/d/18vwJtRh2IAvsJvNEZtA1uSpHikW7cmuAwsfhUVTBr7c/edit?usp=sharing" target="_blank" rel="noopener">
         <figure>
-          <img src="pasta.png" alt="Análise Criminal" loading="lazy">
+          <img src="pasta.png" alt="Análise Criminal">
           <figcaption class="caption"><strong>Análise Criminal</strong></figcaption>
         </figure>
       </a>
 
       <a href="https://drive.google.com/drive/folders/1xxyhzChozUNIYozhkGogJ4KkYixGolxr?usp=sharing" target="_blank" rel="noopener">
         <figure>
-          <img src="pasta.png" alt="Ordens de Serviço" loading="lazy">
+          <img src="pasta.png" alt="Ordens de Serviço">
           <figcaption class="caption"><strong>Ordens de Serviço</strong></figcaption>
         </figure>
       </a>
 
       <a href="https://docs.google.com/spreadsheets/d/1_zKAEUIgF3DDnoMevwvCrqaIh-WtNQLvO2SQXovu_eU/edit?usp=sharing" target="_blank" rel="noopener">
         <figure>
-          <img src="pasta.png" alt="QAP" loading="lazy">
+          <img src="pasta.png" alt="QAP">
           <figcaption class="caption"><strong>QAP</strong></figcaption>
         </figure>
       </a>
 
       <a href="https://docs.google.com/spreadsheets/d/1vT0B7PhLwElgYQEa6M0eUGQpP7EVnrSmxamf0QEB8wI/edit?usp=sharing" target="_blank" rel="noopener">
         <figure>
-          <img src="pasta.png" alt="Mapa de Viaturas" loading="lazy">
+          <img src="pasta.png" alt="Mapa de Viaturas">
           <figcaption class="caption"><strong>Mapa de Viaturas</strong></figcaption>
         </figure>
       </a>
 
       <a href="https://docs.google.com/spreadsheets/d/1BJcYe9m4GlRPfonB_W-LmM8ivXj1J2SG2QUO3hMnPeE/edit?usp=sharing" target="_blank" rel="noopener">
         <figure>
-          <img src="pasta.png" alt="Planejamento DEJEM" loading="lazy">
+          <img src="pasta.png" alt="Planejamento DEJEM">
           <figcaption class="caption"><strong>Planejamento DEJEM</strong></figcaption>
         </figure>
-</a>
-<a href="https://drive.google.com/drive/folders/1U_z4u6RuZcPWkgD3hQbueoDJdTgxXs8U?usp=sharing" target="_blank" rel="noopener">
+      </a>
+
+      <a href="https://drive.google.com/drive/folders/1U_z4u6RuZcPWkgD3hQbueoDJdTgxXs8U?usp=sharing" target="_blank" rel="noopener">
         <figure>
-          <img src="pasta.png" alt="ESCALAS" loading="lazy">
+          <img src="pasta.png" alt="ESCALAS">
           <figcaption class="caption"><strong>ESCALAS</strong></figcaption>
         </figure>
-
       </a>
     </div>
   </section>
 
   <!-- Banner 2 -->
   <section>
+   <h1>Destaques do mês</h1>
     <div class="banner-box">
-      <img src="pmdomes.png" class="banner" alt="PM do Mês" loading="lazy">
+      <img src="pmdomes.png" class="banner" alt="PM do Mês">
     </div>
-    <h1>Destaques do mês</h1>
   </section>
 
-  <!-- Links úteis -->
-  <section aria-label="Links úteis">
-    <h2>Links úteis</h2>
-    <div class="link-section">
-      <a href="https://sgo.policiamilitar.sp.gov.br/" target="_blank" rel="noopener" aria-label="Abrir SGO em nova aba">
-        <img src="sgo.png" alt="SGO" loading="lazy">
-      </a>
+  <!-- Galeria de fotos -->
+  <section aria-label="Galeria de fotos">
+    <h2>Galeria de fotos</h2>
+    <div class="slideshow-wrap">
+      <div class="slideshow" id="slideshow">
+        <!-- use aqui suas imagens (sem cortes) -->
+        <figure class="slide active"><img src="foto1.jpg" alt="Foto 1"></figure>
+        <figure class="slide"><img src="foto2.jpg" alt="Foto 2"></figure>
+        <figure class="slide"><img src="foto3.jpg" alt="Foto 3"></figure>
+        <figure class="slide"><img src="foto4.jpg" alt="Foto 4"></figure>
+        <figure class="slide"><img src="foto5.jpg" alt="Foto 5"></figure>
+        <figure class="slide"><img src="foto6.jpg" alt="Foto 6"></figure>
 
-      <a href="http://orion.intranet.policiamilitar.sp.gov.br/" target="_blank" rel="noopener" aria-label="Abrir Orion em nova aba">
-        <img src="orion.png" alt="Orion" loading="lazy">
-      </a>
+        <!-- Setas -->
+        <button class="arrow left" id="prev" aria-label="Anterior">&#10094;</button>
+        <button class="arrow right" id="next" aria-label="Próxima">&#10095;</button>
 
-      <a href="https://www.infocrim.ssp.sp.gov.br/login" target="_blank" rel="noopener" aria-label="Abrir Infocrim em nova aba">
-        <img src="infocrim.png" alt="Infocrim" loading="lazy">
-      </a>
-
-      <a href="https://www.ssp.sp.gov.br/estatistica/dados-mensais" target="_blank" rel="noopener" aria-label="Abrir SSP Estatísticas em nova aba">
-        <img src="ssp.png" alt="SSP" loading="lazy">
-      </a>
+        <!-- Pontos -->
+        <div class="dots" id="dots" aria-hidden="true"></div>
+      </div>
     </div>
   </section>
 
@@ -196,7 +284,80 @@
     &copy; 2025 - 18º Batalhão da Polícia Militar do Interior
   </footer>
 
+  <script>
+    (function(){
+      const slideshow = document.getElementById('slideshow');
+      const slides = Array.from(slideshow.querySelectorAll('.slide'));
+      const dotsWrap = document.getElementById('dots');
+      const btnPrev = document.getElementById('prev');
+      const btnNext = document.getElementById('next');
+
+      let index = 0, timer = null;
+      const DURATION = 5000; // 5 segundos
+
+      // aplica a imagem de fundo desfocado em cada slide com base no src da <img>
+      slides.forEach(slide => {
+        const img = slide.querySelector('img');
+        if (img && img.getAttribute('src')) {
+          const url = img.getAttribute('src').replace(/["'()\\]/g, "\\$&");
+          slide.style.setProperty('--bg-img', `url("${url}")`);
+        }
+      });
+
+      // cria os pontos
+      slides.forEach((_, i) => {
+        const dot = document.createElement('span');
+        dot.className = 'dot' + (i===0?' active':'');
+        dot.addEventListener('click',()=>goTo(i,true));
+        dotsWrap.appendChild(dot);
+      });
+      const dots = Array.from(dotsWrap.children);
+
+      function setActive(i){
+        slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+        dots.forEach((d,k)=>d.classList.toggle('active',k===i));
+      }
+
+      function next(){
+        index=(index+1)%slides.length;
+        setActive(index);
+      }
+
+      function prev(){
+        index=(index-1+slides.length)%slides.length;
+        setActive(index);
+      }
+
+      function goTo(i,reset=false){
+        index=(i+slides.length)%slides.length;
+        setActive(index);
+        if(reset) restart();
+      }
+
+      function start(){
+        stop();
+        timer=setInterval(next,DURATION);
+      }
+
+      function stop(){
+        if(timer) clearInterval(timer);
+        timer=null;
+      }
+
+      function restart(){
+        stop();
+        start();
+      }
+
+      btnNext.addEventListener('click',()=>{next();restart();});
+      btnPrev.addEventListener('click',()=>{prev();restart();});
+
+      slideshow.addEventListener('mouseenter',stop);
+      slideshow.addEventListener('mouseleave',start);
+      document.addEventListener('visibilitychange',()=>{document.hidden?stop():start();});
+
+      start();
+    })();
+  </script>
 </body>
 </html>
-
-
