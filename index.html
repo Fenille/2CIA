@@ -474,7 +474,7 @@ if (userStored) {
   loginBox.style.display = "flex";
 }
 
-document.getElementById("formLogin").addEventListener("submit", (e) => {
+document.getElementById("formLogin").addEventListener("submit", async (e) => {
   e.preventDefault();
   const uRaw = document.getElementById("usuario").value.trim();
   const u = uRaw.toLowerCase();   // normaliza para login
@@ -483,10 +483,12 @@ document.getElementById("formLogin").addEventListener("submit", (e) => {
   if (usuarios[u] && usuarios[u] === s) {
     sessionStorage.setItem("authUser", u);
     pushLog("login_sucesso", { user: u });
+    await registrarAcesso({ usuario: u, sucesso: true, extra: 'login_ok', evento: 'login_sucesso' });
     mostrarSite(u);
   } else {
     erro.textContent = "Usuário ou senha incorretos.";
     pushLog("login_falha", { user: u });
+    await registrarAcesso({ usuario: u || '(vazio)', sucesso: false, extra: 'senha_invalida', evento: 'login_falha' });
   }
 });
 
@@ -502,9 +504,12 @@ function mostrarSite(u){
   }
 }
 
-function sair() {
+async function sair() {
   const u = sessionStorage.getItem("authUser");
-  if (u) pushLog("logout", { user: u });
+  if (u) {
+    pushLog("logout", { user: u });
+    await registrarAcesso({ usuario: u, sucesso: true, extra: 'logout', evento: 'logout' });
+  }
   sessionStorage.clear();
   location.reload();
 }
@@ -532,6 +537,36 @@ function pushLog(evento, extra={}){
     ...deviceInfo()
   });
   salvar(KEY_LOG, logs.slice(-2000)); // últimos 2000 eventos
+}
+
+/* ====== >>> INTEGRAÇÃO COM GOOGLE SHEETS (CENTRALIZADO) <<< ====== */
+const AUDIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwMJGNOgtKFLTp7RJKFgFE_j_5UbvX196uEj21_MI3l524flrc9fXgVZkTszr26SH8MFg/exe';
+
+// Envia para a planilha (POST). Usa no-cors para evitar erros de CORS no front.
+async function logAcessoRemoto({ usuario, sucesso, page = location.pathname, extra = '', evento = '' }) {
+  try {
+    const payload = {
+      usuario: String(usuario || '').trim(),
+      sucesso: !!sucesso,
+      userAgent: navigator.userAgent,
+      page,
+      extra: extra || evento || ''
+    };
+    await fetch(AUDIT_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors', // troque para 'cors' se habilitar CORS no Apps Script
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (e) {
+    console.warn('Falha ao registrar no servidor:', e);
+  }
+}
+
+// Backup local já é feito pelo pushLog() nos pontos de evento.
+// Esta função unifica a chamada remota.
+async function registrarAcesso({ usuario, sucesso, extra = '', evento = '' }) {
+  await logAcessoRemoto({ usuario, sucesso, extra, evento });
 }
 
 /* ===== UI do modal de auditoria ===== */
@@ -617,7 +652,7 @@ $expCSV?.addEventListener("click", ()=>{
   const rows = getFilteredLogs();
   const header = ["ts","evento","user","role","alvo","tentativas","ua","lang","scr","tz"];
   const csv = [header.join(",")].concat(rows.map(r=> header.map(k=>{
-    const v = (r[k] ?? "").toString().replaceAll('"','""');
+    const v = (r[k] ?? "").toString().replaceAll('"','"');
     return `"${v}"`;
   }).join(","))).join("\n");
   const stamp = new Date().toISOString().replace(/[:.]/g,"-");
