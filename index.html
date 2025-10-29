@@ -540,7 +540,7 @@ function pushLog(evento, extra={}){
 }
 
 /* ====== >>> INTEGRAÇÃO COM GOOGLE SHEETS (CENTRALIZADO) <<< ====== */
-const AUDIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxuKZ1d1fTmywOSJcITPhvlUwPKyznx-h31GUI4EgWV/dev';
+const AUDIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwB4GSFaj8i_mk4Sl0KVN3f9H-4ywXXAQhryWvjAhPzh1J8ottihpedDoJxowACjKPLcQ/exec';
 
 // Envia para a planilha (POST). Usa no-cors para evitar erros de CORS no front.
 async function logAcessoRemoto({ usuario, sucesso, page = location.pathname, extra = '', evento = '' }) {
@@ -717,4 +717,5 @@ $clear?.addEventListener("click", ()=>{
 </script>
 </body>
 </html>
+
 
