@@ -11,183 +11,184 @@
       --bg:#000;
       --gap:20px;
       --radius:10px;
-
-      /* Alturas responsivas (mais altas e sem cortes) */
-      --banner-max-h:  clamp(480px, 78vh, 960px);
-      --banner-max-h-sm:clamp(320px, 65vh, 720px);
-
-      /* Slideshow */
-      --dur: 5000ms;   /* 5s por foto */
-      --fade: 1500ms;  /* transição suave 1.5s */
+      --banner-max-h:clamp(480px,78vh,960px);
+      --banner-max-h-sm:clamp(320px,65vh,720px);
+      --dur:5000ms;
+      --fade:1500ms;
     }
 
     *{box-sizing:border-box}
-    body {
-      margin: 0;
-      background-color: var(--bg);
-      font-family: Arial, sans-serif;
-      color: var(--amarelo);
-      text-align: center;
-      overflow-x: hidden;
+    body{
+      margin:0;
+      background-color:var(--bg);
+      font-family:Arial,sans-serif;
+      color:var(--amarelo);
+      text-align:center;
+      overflow-x:hidden;
     }
 
-    h1, h2 { margin: 20px 10px; font-size: 1.8em; }
+    h1,h2{margin:20px 10px;font-size:1.8em;}
 
-    /* ====== Banners (Topo e PM do mês) ====== */
-    .banner-box {
-      width: 100%;
-      height: var(--banner-max-h);      /* altura efetiva */
-      background-color: var(--bg);
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: var(--radius);
+    /* ===== Login ===== */
+    #loginBox{
+      height:100vh;
+      width:100%;
+      background:#000;
+      color:var(--amarelo);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .login-card{
+      background:#111;
+      border:1px solid #333;
+      border-radius:12px;
+      padding:30px;
+      width:min(400px,90%);
+      box-shadow:0 0 20px rgba(255,255,0,0.3);
+      text-align:center;
+    }
+    .login-card h1{margin:0 0 10px;font-size:1.6em;}
+    .login-card p{color:var(--cinza);margin-bottom:20px;}
+    .login-card input{
+      width:100%;
+      padding:10px;
+      margin:8px 0;
+      border-radius:8px;
+      border:1px solid #333;
+      background:#000;
+      color:#fff;
+      font-size:1em;
+    }
+    .login-card input:focus{outline:none;border-color:var(--amarelo);}
+    .login-card button{
+      background:var(--amarelo);
+      color:#000;
+      border:none;
+      border-radius:20px;
+      padding:10px 20px;
+      font-weight:bold;
+      cursor:pointer;
+      margin-top:10px;
+      transition:background .2s;
+    }
+    .login-card button:hover{background:#ffea00;}
+    .erro{color:#f66;font-size:.9em;height:1em;margin-top:8px;}
+    footer{margin-top:40px;font-size:.9em;color:var(--cinza);padding:20px;}
+    
+    /* ===== Site normal (só aparece após login) ===== */
+    #siteConteudo{display:none;}
+    
+    .banner-box{
+      width:100%;
+      height:var(--banner-max-h);
+      background-color:var(--bg);
+      overflow:hidden;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      border-radius:var(--radius);
+      position:relative;
+    }
+    .banner{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      background-color:var(--bg);
     }
 
-    .banner {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;               /* sem cortes */
-      display: block;
-      background-color: var(--bg);
+    /* Barra de topo com ações */
+    .top-actions{
+      position:absolute;top:10px;right:10px;display:flex;gap:8px;align-items:center;
+    }
+    .btn{
+      background:#FFFF00;
+      color:#000;
+      border:none;
+      border-radius:20px;
+      padding:6px 12px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .btn.sec{
+      background:#222;color:#FFFF00;border:1px solid #FFFF00;
     }
 
-    /* ===== Atalhos ===== */
-    .link-section {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: var(--gap);
-      margin: 30px 10px;
-      position: relative;
-      z-index: 1;
+    .link-section{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:var(--gap);
+      margin:30px 10px;
     }
-    figure { margin: 0; }
-    .link-section a img {
-      width: 180px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      border-radius: var(--radius);
+    .link-section a img{
+      width:180px;
+      transition:transform .3s,box-shadow .3s;
+      border-radius:var(--radius);
     }
-    .link-section a img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.6);
-      cursor: pointer;
+    .link-section a img:hover{
+      transform:scale(1.05);
+      box-shadow:0 0 20px 5px rgba(255,215,0,0.6);
+      cursor:pointer;
     }
-    .caption { font-size: 22px; color: var(--amarelo); margin-top: 10px; }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.9em;
-      color: var(--cinza);
-      padding: 20px;
-    }
+    .caption{font-size:22px;color:var(--amarelo);margin-top:10px;}
 
     /* ===== Slideshow ===== */
     .slideshow-wrap{
       width:100%;
-      height: var(--banner-max-h);       /* altura alta e responsiva */
+      height:var(--banner-max-h);
       display:flex;
       justify-content:center;
       align-items:center;
-      background: var(--bg);
+      background:var(--bg);
       overflow:hidden;
-      border-radius: var(--radius);
+      border-radius:var(--radius);
       position:relative;
       z-index:0;
     }
-
-    .slideshow{
-      position:relative;
-      width:100%;
-      height:100%;                       /* ocupa toda a altura definida */
-      background:#111;
-      overflow:hidden;
-      display:block;
-    }
-
+    .slideshow{position:relative;width:100%;height:100%;overflow:hidden;}
     .slide{
-      position:absolute;
-      inset:0;
-      margin:0;
-      opacity:0;
-      transition: opacity var(--fade) ease-in-out;
+      position:absolute;inset:0;opacity:0;
+      transition:opacity var(--fade) ease-in-out;
     }
-
-    /* Fundo desfocado que usa a própria foto (preenche faixas sem cortar) */
     .slide::before{
       content:"";
-      position:absolute;
-      inset:0;
-      background-image: var(--bg-img, none);
-      background-size: cover;
-      background-position: center;
-      filter: blur(24px) brightness(0.6);
-      transform: scale(1.1);  /* evita bordas do blur */
+      position:absolute;inset:0;
+      background-image:var(--bg-img,none);
+      background-size:cover;
+      background-position:center;
+      filter:blur(24px) brightness(0.6);
+      transform:scale(1.1);
     }
-
     .slide img{
-      position:relative;
-      width:100%;
-      height:100%;
-      object-fit: contain;     /* SEM CORTES: mostra a foto inteira, vertical/horizontal */
-      display:block;
-      user-select:none;
-      pointer-events:none;
-      background: transparent;
+      position:relative;width:100%;height:100%;
+      object-fit:contain;display:block;user-select:none;
     }
-
-    .slide.active{ opacity:1; }
-
+    .slide.active{opacity:1;}
     .dots{
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:12px;
-      display:flex;
-      gap:8px;
-      z-index:5;
+      position:absolute;left:50%;transform:translateX(-50%);
+      bottom:12px;display:flex;gap:8px;z-index:5;
     }
     .dot{
-      width:10px; height:10px; border-radius:50%;
-      background: rgba(255,255,255,.45);
-      transition: transform .2s ease, background .2s ease;
+      width:10px;height:10px;border-radius:50%;
+      background:rgba(255,255,255,.45);
+      transition:transform .2s,background .2s;
     }
-    .dot.active{
-      background:#fff;
-      transform: scale(1.2);
-    }
-
-    /* ===== Setas ===== */
+    .dot.active{background:#fff;transform:scale(1.2);}
     .arrow{
-      position:absolute;
-      top:50%;
-      transform:translateY(-50%);
-      font-size:2em;
-      color:#fff;
-      background:rgba(0,0,0,0.4);
-      border:none;
-      padding:10px 15px;
-      border-radius:50%;
-      cursor:pointer;
-      z-index:6;
-      transition:background .3s;
-      user-select:none;
+      position:absolute;top:50%;transform:translateY(-50%);
+      font-size:2em;color:#fff;background:rgba(0,0,0,0.4);
+      border:none;padding:10px 15px;border-radius:50%;
+      cursor:pointer;z-index:6;
     }
-    .arrow:hover{ background:rgba(255,255,255,0.3); }
-    .arrow.left{ left:15px; }
-    .arrow.right{ right:15px; }
-
-    /* Acessibilidade: reduz animação quando preferido */
-    @media (prefers-reduced-motion: reduce){
-      .slide{ transition: none; }
-    }
+    .arrow:hover{background:rgba(255,255,255,0.3);}
+    .arrow.left{left:15px;}
+    .arrow.right{right:15px;}
 
     @media (max-width:600px){
-      h1{font-size:1.5em;}
-      h2{font-size:1.2em;}
-      .banner-box{ height:var(--banner-max-h-sm); }
-      .slideshow-wrap{ height:var(--banner-max-h-sm); }
+      h1{font-size:1.5em;}h2{font-size:1.2em;}
+      .banner-box,.slideshow-wrap{height:var(--banner-max-h-sm);}
       .link-section{flex-direction:column;align-items:center;}
       .link-section a img{width:90%;max-width:360px;}
     }
@@ -195,156 +196,489 @@
 </head>
 <body>
 
-  <!-- Banner 1 -->
+<!-- Login -->
+<div id="loginBox">
+  <div class="login-card">
+    <h1>Acesso Restrito</h1>
+    <p>Digite seu usuário e senha</p>
+    <form id="formLogin">
+      <input id="usuario" placeholder="Usuário" required>
+      <input id="senha" type="password" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+      <div class="erro" id="erro"></div>
+    </form>
+  </div>
+</div>
+
+<!-- Conteúdo do site (oculto até login) -->
+<div id="siteConteudo">
   <header>
     <div class="banner-box">
       <img src="topo.png" class="banner" alt="Topo 18º BPM/I">
+
+      <!-- Ações no topo (aparecem após login) -->
+      <div class="top-actions">
+        <button id="btn-audit-open" class="btn sec" style="display:none">Registro de Acessos</button>
+        <button onclick="sair()" class="btn">Sair</button>
+      </div>
     </div>
     <h1>Sistema de Gestão da 2ª Companhia</h1>
   </header>
 
-  <!-- Atalhos -->
-  <section aria-label="Atalhos principais">
+  <section>
     <div class="link-section">
-      <a href="https://docs.google.com/spreadsheets/d/18vwJtRh2IAvsJvNEZtA1uSpHikW7cmuAwsfhUVTBr7c/edit?usp=sharing" target="_blank" rel="noopener">
-        <figure>
-          <img src="pasta.png" alt="Análise Criminal">
-          <figcaption class="caption"><strong>Análise Criminal</strong></figcaption>
-        </figure>
+      <a href="https://docs.google.com/spreadsheets/d/18vwJtRh2IAvsJvNEZtA1uSpHikW7cmuAwsfhUVTBr7c/edit?usp=sharing" target="_blank">
+        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>Análise Criminal</strong></figcaption></figure>
       </a>
-
-      <a href="https://drive.google.com/drive/folders/1xxyhzChozUNIYozhkGogJ4KkYixGolxr?usp=sharing" target="_blank" rel="noopener">
-        <figure>
-          <img src="pasta.png" alt="Ordens de Serviço">
-          <figcaption class="caption"><strong>Ordens de Serviço</strong></figcaption>
-        </figure>
+      <a href="https://drive.google.com/drive/folders/1xxyhzChozUNIYozhkGogJ4KkYixGolxr?usp=sharing" target="_blank">
+        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>Ordens de Serviço</strong></figcaption></figure>
       </a>
-
-      <a href="https://docs.google.com/spreadsheets/d/1_zKAEUIgF3DDnoMevwvCrqaIh-WtNQLvO2SQXovu_eU/edit?usp=sharing" target="_blank" rel="noopener">
-        <figure>
-          <img src="pasta.png" alt="QAP">
-          <figcaption class="caption"><strong>QAP</strong></figcaption>
-        </figure>
+      <a href="https://docs.google.com/spreadsheets/d/1_zKAEUIgF3DDnoMevwvCrqaIh-WtNQLvO2SQXovu_eU/edit?usp=sharing" target="_blank">
+        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>QAP</strong></figcaption></figure>
       </a>
-
-      <a href="https://docs.google.com/spreadsheets/d/1vT0B7PhLwElgYQEa6M0eUGQpP7EVnrSmxamf0QEB8wI/edit?usp=sharing" target="_blank" rel="noopener">
-        <figure>
-          <img src="pasta.png" alt="Mapa de Viaturas">
-          <figcaption class="caption"><strong>Mapa de Viaturas</strong></figcaption>
-        </figure>
+      <a href="https://docs.google.com/spreadsheets/d/1vT0B7PhLwElgYQEa6M0eUGQpP7EVnrSmxamf0QEB8wI/edit?usp=sharing" target="_blank">
+        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>Mapa de Viaturas</strong></figcaption></figure>
       </a>
-
-      <a href="https://docs.google.com/spreadsheets/d/1BJcYe9m4GlRPfonB_W-LmM8ivXj1J2SG2QUO3hMnPeE/edit?usp=sharing" target="_blank" rel="noopener">
-        <figure>
-          <img src="pasta.png" alt="Planejamento DEJEM">
-          <figcaption class="caption"><strong>Planejamento DEJEM</strong></figcaption>
-        </figure>
+      <a href="https://docs.google.com/spreadsheets/d/1BJcYe9m4GlRPfonB_W-LmM8ivXj1J2SG2QUO3hMnPeE/edit?usp=sharing" target="_blank">
+        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>Planejamento DEJEM</strong></figcaption></figure>
       </a>
-
-      <a href="https://drive.google.com/drive/folders/1U_z4u6RuZcPWkgD3hQbueoDJdTgxXs8U?usp=sharing" target="_blank" rel="noopener">
-        <figure>
-          <img src="pasta.png" alt="ESCALAS">
-          <figcaption class="caption"><strong>ESCALAS</strong></figcaption>
-        </figure>
+      <a href="https://drive.google.com/drive/folders/1U_z4u6RuZcPWkgD3hQbueoDJdTgxXs8U?usp=sharing" target="_blank">
+        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>ESCALAS</strong></figcaption></figure>
       </a>
     </div>
   </section>
 
-  <!-- Banner 2 -->
   <section>
-   <h1>Destaques do mês</h1>
+    <h1>Destaques do mês</h1>
     <div class="banner-box">
       <img src="pmdomes.png" class="banner" alt="PM do Mês">
     </div>
   </section>
 
-  <!-- Galeria de fotos -->
-  <section aria-label="Galeria de fotos">
+  <section>
     <h2>Galeria de fotos</h2>
     <div class="slideshow-wrap">
       <div class="slideshow" id="slideshow">
-        <!-- use aqui suas imagens (sem cortes) -->
-        <figure class="slide active"><img src="foto1.jpg" alt="Foto 1"></figure>
-        <figure class="slide"><img src="foto2.jpg" alt="Foto 2"></figure>
-        <figure class="slide"><img src="foto3.jpg" alt="Foto 3"></figure>
-        <figure class="slide"><img src="foto4.jpg" alt="Foto 4"></figure>
-        <figure class="slide"><img src="foto5.jpg" alt="Foto 5"></figure>
-        <figure class="slide"><img src="foto6.jpg" alt="Foto 6"></figure>
-        <figure class="slide"><img src="foto7.jpg" alt="Foto 7"></figure>
-        <figure class="slide"><img src="foto8.jpg" alt="Foto 8"></figure>
-        <figure class="slide"><img src="foto9.jpg" alt="Foto 9"></figure>
+        <figure class="slide active"><img src="foto1.jpg" alt=""></figure>
+        <figure class="slide"><img src="foto2.jpg" alt=""></figure>
+        <figure class="slide"><img src="foto3.jpg" alt=""></figure>
+        <figure class="slide"><img src="foto4.jpg" alt=""></figure>
+        <figure class="slide"><img src="foto5.jpg" alt=""></figure>
+        <figure class="slide"><img src="foto6.jpg" alt=""></figure>
+        <figure class="slide"><img src="foto7.jpg" alt=""></figure>
+        <figure class="slide"><img src="foto8.jpg" alt=""></figure>
+        <figure class="slide"><img src="foto9.jpg" alt=""></figure>
 
-        <!-- Setas -->
-        <button class="arrow left" id="prev" aria-label="Anterior">&#10094;</button>
-        <button class="arrow right" id="next" aria-label="Próxima">&#10095;</button>
-
-        <!-- Pontos -->
-        <div class="dots" id="dots" aria-hidden="true"></div>
+        <button class="arrow left" id="prev">&#10094;</button>
+        <button class="arrow right" id="next">&#10095;</button>
+        <div class="dots" id="dots"></div>
       </div>
     </div>
   </section>
 
-  <footer>
-    &copy; 2025 - 18º Batalhão da Polícia Militar do Interior
-  </footer>
+  <footer>&copy; 2025 - 18º Batalhão da Polícia Militar do Interior</footer>
+</div>
 
-  <script>
-    (function(){
-      const slideshow = document.getElementById('slideshow');
-      const slides = Array.from(slideshow.querySelectorAll('.slide'));
-      const dotsWrap = document.getElementById('dots');
-      const btnPrev = document.getElementById('prev');
-      const btnNext = document.getElementById('next');
+<!-- ===== Modal do Registro de Acessos ===== -->
+<dialog id="audit-modal" style="border:none;border-radius:12px;max-width:980px;width:95%;padding:0;background:#000;color:#FFFF00">
+  <header style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #333">
+    <strong style="font-size:18px">Registro de Acessos</strong>
+    <button id="audit-close" class="btn sec">Fechar</button>
+  </header>
 
-      let index = 0, timer = null;
-      const DURATION = 5000; // 5 segundos
+  <section style="padding:12px 20px;display:grid;gap:12px">
+    <!-- Filtros -->
+    <div style="display:grid;gap:8px;grid-template-columns:repeat(6,minmax(0,1fr));align-items:end">
+      <div style="grid-column:span 2">
+        <label for="fil-user">Usuário</label>
+        <input id="fil-user" placeholder="ex.: fenille" style="width:100%;padding:6px;background:#111;color:#FFFF00;border:1px solid #333;border-radius:8px">
+      </div>
+      <div>
+        <label for="fil-event">Evento</label>
+        <select id="fil-event" style="width:100%;padding:6px;background:#111;color:#FFFF00;border:1px solid #333;border-radius:8px">
+          <option value="">(todos)</option>
+          <option>login_sucesso</option>
+          <option>login_falha</option>
+          <option>login_bloqueado</option>
+          <option>logout</option>
+          <option>auto_logout_inatividade</option>
+          <option>sessao_expirada</option>
+          <option>acesso_negado</option>
+        </select>
+      </div>
+      <div>
+        <label for="fil-d1">De</label>
+        <input id="fil-d1" type="date" style="width:100%;padding:6px;background:#111;color:#FFFF00;border:1px solid #333;border-radius:8px">
+      </div>
+      <div>
+        <label for="fil-d2">Até</label>
+        <input id="fil-d2" type="date" style="width:100%;padding:6px;background:#111;color:#FFFF00;border:1px solid #333;border-radius:8px">
+      </div>
+      <div>
+        <button id="fil-aplicar" class="btn sec" style="width:100%;">Aplicar</button>
+      </div>
+      <div>
+        <button id="fil-limpar" class="btn sec" style="width:100%;">Limpar filtros</button>
+      </div>
+    </div>
 
-      // aplica a imagem de fundo desfocado em cada slide com base no src da <img>
-      slides.forEach(slide => {
-        const img = slide.querySelector('img');
-        if (img && img.getAttribute('src')) {
-          const url = img.getAttribute('src').replace(/["'()\\]/g, "\\$&");
-          slide.style.setProperty('--bg-img', `url("${url}")`);
-        }
-      });
+    <!-- Ações -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="audit-export-csv"  class="btn sec">Exportar CSV</button>
+      <button id="audit-export-json" class="btn sec">Exportar JSON</button>
+      <button id="audit-clear"       class="btn sec" style="margin-left:auto;background:#330000;border-color:#990000;color:#FFFF00">Limpar Registro</button>
+    </div>
 
-      // cria os pontos
-      slides.forEach((_, i) => {
-        const dot = document.createElement('span');
-        dot.className = 'dot' + (i===0?' active':'');
-        dot.addEventListener('click',()=>goTo(i,true));
-        dotsWrap.appendChild(dot);
-      });
-      const dots = Array.from(dotsWrap.children);
+    <!-- Tabela -->
+    <div style="max-height:55vh;overflow:auto;border:1px solid #222;border-radius:10px">
+      <table id="audit-table" style="width:100%;border-collapse:collapse">
+        <thead>
+          <tr style="background:#111">
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #222">Data/Hora</th>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #222">Usuário</th>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #222">Role</th>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #222">Evento</th>
+            <th style="text-align:left;padding:8px;border-bottom:1px solid #222">Detalhes</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</dialog>
 
-      function setActive(i){
-        slides.forEach((s,k)=>s.classList.toggle('active',k===i));
-        dots.forEach((d,k)=>d.classList.toggle('active',k===i));
-      }
+<script>
+/* ================== Login e usuários ================== */
+/* Nota: o usuário digitado é convertido para minúsculas para evitar erro de maiúsc./minúsc. */
+const usuarios = {
+  "fenille": "Tatico25",            // ✅ Novo administrador (digite Fenille ou fenille)
+  "analista": "ocorrencia#destaque",
 
-      function next(){ index=(index+1)%slides.length; setActive(index); }
-      function prev(){ index=(index-1+slides.length)%slides.length; setActive(index); }
+  /* === REs (exemplos — pode manter/expandir) === */
+  "140965": "140965",
+  "picinin": "picinin",
+  "139041": "139041",
+  "963863": "963863",
+  "118072": "118072",
+  "894464": "894464",
+  "991296": "991296",
+  "991315": "991315",
+  "126604": "126604",
+  "130273": "130273",
+  "133736": "133736",
+  "138402": "138402",
+  "963846": "963846",
+  "963897": "963897",
+  "103364": "103364",
+  "151785": "151785",
+  "961846": "961846",
+  "975829": "975829",
+  "980369": "980369",
+  "982571": "982571",
+  "991278": "991278",
+  "992151": "992151",
+  "992207": "992207",
+  "992214": "992214",
+  "100153": "100153",
+  "102633": "102633",
+  "104690": "104690",
+  "106001": "106001",
+  "106080": "106080",
+  "106109": "106109",
+  "107785": "107785",
+  "108753": "108753",
+  "109812": "109812",
+  "110206": "110206",
+  "110251": "110251",
+  "110263": "110263",
+  "110272": "110272",
+  "110304": "110304",
+  "110306": "110306",
+  "110312": "110312",
+  "113857": "113857",
+  "114004": "114004",
+  "118350": "118350",
+  "118634": "118634",
+  "119457": "119457",
+  "120145": "120145",
+  "122385": "122385",
+  "124948": "124948",
+  "125817": "125817",
+  "126213": "126213",
+  "129261": "129261",
+  "132800": "132800",
+  "132223": "132223",
+  "133069": "133069",
+  "134504": "134504",
+  "134775": "134775",
+  "137016": "137016",
+  "139093": "139093",
+  "139544": "139544",
+  "140839": "140839",
+  "141128": "141128",
+  "141321": "141321",
+  "141366": "141366",
+  "141549": "141549",
+  "143540": "143540",
+  "144106": "144106",
+  "144384": "144384",
+  "145843": "145843",
+  "145903": "145903",
+  "145988": "145988",
+  "148491": "148491",
+  "148512": "148512",
+  "151742": "151742",
+  "152845": "152845",
+  "156453": "156453",
+  "157284": "157284",
+  "170571": "170571",
+  "171625": "171625",
+  "180445": "180445",
+  "190996": "190996",
+  "192457": "192457",
+  "147082": "147082",
+  "147780": "147780",
+  "149091": "149091",
+  "150933": "150933",
+  "150934": "150934",
+  "151188": "151188",
+  "154870": "154870",
+  "155436": "155436",
+  "156189": "156189",
+  "156472": "156472",
+  "156579": "156579",
+  "157853": "157853",
+  "161839": "161839",
+  "162276": "162276",
+  "171268": "171268",
+  "171729": "171729",
+  "180904": "180904",
+  "191753": "191753",
+  "193398": "193398",
+  "127971": "127971",
+  "191234": "191234",
+  "191921": "191921",
+  "104547": "104547",
+  "192696": "192696"
+};
 
-      function goTo(i,reset=false){
-        index=(i+slides.length)%slides.length;
-        setActive(index);
-        if(reset) restart();
-      }
+const loginBox = document.getElementById("loginBox");
+const siteConteudo = document.getElementById("siteConteudo");
+const erro = document.getElementById("erro");
+const btnAuditOpen = document.getElementById("btn-audit-open");
 
-      function start(){ stop(); timer=setInterval(next,DURATION); }
-      function stop(){ if(timer) clearInterval(timer); timer=null; }
-      function restart(){ stop(); start(); }
+const userStored = sessionStorage.getItem("authUser");
+if (userStored) {
+  mostrarSite(userStored);
+} else {
+  loginBox.style.display = "flex";
+}
 
-      btnNext.addEventListener('click',()=>{next();restart();});
-      btnPrev.addEventListener('click',()=>{prev();restart();});
+document.getElementById("formLogin").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const uRaw = document.getElementById("usuario").value.trim();
+  const u = uRaw.toLowerCase();   // normaliza para login
+  const s = document.getElementById("senha").value;
 
-      slideshow.addEventListener('mouseenter',stop);
-      slideshow.addEventListener('mouseleave',start);
-      document.addEventListener('visibilitychange',()=>{document.hidden?stop():start();});
+  if (usuarios[u] && usuarios[u] === s) {
+    sessionStorage.setItem("authUser", u);
+    pushLog("login_sucesso", { user: u });
+    mostrarSite(u);
+  } else {
+    erro.textContent = "Usuário ou senha incorretos.";
+    pushLog("login_falha", { user: u });
+  }
+});
 
-      start();
-    })();
-  </script>
+function mostrarSite(u){
+  loginBox.style.display = "none";
+  siteConteudo.style.display = "block";
+
+  // Mostrar botão de Registro de Acessos só para fenille e analista
+  if (u === "fenille" || u === "analista") {
+    btnAuditOpen.style.display = "inline-block";
+  } else {
+    btnAuditOpen.style.display = "none";
+  }
+}
+
+function sair() {
+  const u = sessionStorage.getItem("authUser");
+  if (u) pushLog("logout", { user: u });
+  sessionStorage.clear();
+  location.reload();
+}
+
+/* ================== Registro de Acessos (Audit Log) ================== */
+const KEY_LOG = "gestao18_auditlog";
+function salvar(key, obj){ localStorage.setItem(key, JSON.stringify(obj)); }
+function ler(key, def=null){ try { return JSON.parse(localStorage.getItem(key)) ?? def; } catch { return def; } }
+
+function deviceInfo(){
+  return {
+    ua: navigator.userAgent,
+    lang: navigator.language,
+    scr: `${window.screen?.width ?? '?'}x${window.screen?.height ?? '?'}`,
+    tz: Intl.DateTimeFormat().resolvedOptions().timeZone || 'local',
+  };
+}
+function pushLog(evento, extra={}){
+  const logs = ler(KEY_LOG, []);
+  logs.push({
+    ts: new Date().toISOString(),
+    evento,
+    role: extra.role || "-",     // campo role reservado, se quiser usar no futuro
+    ...extra,
+    ...deviceInfo()
+  });
+  salvar(KEY_LOG, logs.slice(-2000)); // últimos 2000 eventos
+}
+
+/* ===== UI do modal de auditoria ===== */
+const $auditModal = document.querySelector("#audit-modal");
+const $auditClose = document.querySelector("#audit-close");
+const $auditTbl   = document.querySelector("#audit-table tbody");
+
+// Filtros
+const $filUser   = document.querySelector("#fil-user");
+const $filEvent  = document.querySelector("#fil-event");
+const $filD1     = document.querySelector("#fil-d1");
+const $filD2     = document.querySelector("#fil-d2");
+const $filAplic  = document.querySelector("#fil-aplicar");
+const $filLimpar = document.querySelector("#fil-limpar");
+
+// Ações
+const $expCSV = document.querySelector("#audit-export-csv");
+const $expJSON= document.querySelector("#audit-export-json");
+const $clear  = document.querySelector("#audit-clear");
+
+btnAuditOpen?.addEventListener("click", ()=> { renderAudit(); $auditModal?.showModal(); });
+$auditClose?.addEventListener("click", ()=> $auditModal?.close());
+
+function getFilteredLogs(){
+  let data = ler(KEY_LOG, []);
+  const u = ($filUser.value || "").trim().toLowerCase();
+  const e = $filEvent.value || "";
+  const d1 = $filD1.value ? new Date($filD1.value + "T00:00:00") : null;
+  const d2 = $filD2.value ? new Date($filD2.value + "T23:59:59") : null;
+
+  return data.filter(item=>{
+    if(u && !(String(item.user||"").toLowerCase().includes(u))) return false;
+    if(e && item.evento !== e) return false;
+    const t = new Date(item.ts);
+    if(d1 && t < d1) return false;
+    if(d2 && t > d2) return false;
+    return true;
+  }).sort((a,b)=> new Date(b.ts)-new Date(a.ts));
+}
+
+function renderAudit(){
+  const rows = getFilteredLogs();
+  $auditTbl.innerHTML = rows.map(r=>{
+    const detalhes = [];
+    if(r.alvo) detalhes.push(`alvo=${r.alvo}`);
+    if(r.tentativas!=null) detalhes.push(`tentativas=${r.tentativas}`);
+    if(r.lang) detalhes.push(`lang=${r.lang}`);
+    if(r.scr)  detalhes.push(`scr=${r.scr}`);
+    if(r.tz)   detalhes.push(`tz=${r.tz}`);
+    const det = detalhes.join(" • ");
+    const when = new Date(r.ts).toLocaleString();
+    return `<tr>
+      <td style="padding:8px;border-bottom:1px solid #222">${when}</td>
+      <td style="padding:8px;border-bottom:1px solid #222">${r.user ?? "-"}</td>
+      <td style="padding:8px;border-bottom:1px solid #222">${r.role ?? "-"}</td>
+      <td style="padding:8px;border-bottom:1px solid #222">${r.evento}</td>
+      <td style="padding:8px;border-bottom:1px solid #222;font-size:12px;color:#ccc">${det}</td>
+    </tr>`;
+  }).join("");
+}
+
+$filAplic?.addEventListener("click", renderAudit);
+$filLimpar?.addEventListener("click", ()=>{
+  $filUser.value = "";
+  $filEvent.value= "";
+  $filD1.value   = "";
+  $filD2.value   = "";
+  renderAudit();
+});
+
+function download(filename, content, type="text/plain"){
+  const blob = new Blob([content], {type});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=> URL.revokeObjectURL(a.href), 1000);
+}
+
+$expCSV?.addEventListener("click", ()=>{
+  const rows = getFilteredLogs();
+  const header = ["ts","evento","user","role","alvo","tentativas","ua","lang","scr","tz"];
+  const csv = [header.join(",")].concat(rows.map(r=> header.map(k=>{
+    const v = (r[k] ?? "").toString().replaceAll('"','""');
+    return `"${v}"`;
+  }).join(","))).join("\n");
+  const stamp = new Date().toISOString().replace(/[:.]/g,"-");
+  download(`registro-acessos-${stamp}.csv`, csv, "text/csv");
+});
+
+$expJSON?.addEventListener("click", ()=>{
+  const rows = getFilteredLogs();
+  const stamp = new Date().toISOString().replace(/[:.]/g,"-");
+  download(`registro-acessos-${stamp}.json`, JSON.stringify(rows, null, 2), "application/json");
+});
+
+$clear?.addEventListener("click", ()=>{
+  if(confirm("Apagar TODO o registro de acessos? Esta ação não pode ser desfeita.")){
+    salvar(KEY_LOG, []);
+    renderAudit();
+  }
+});
+
+/* ================== Slideshow ================== */
+(function(){
+  const slideshow = document.getElementById('slideshow');
+  if (!slideshow) return;
+  const slides = Array.from(slideshow.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  const btnPrev = document.getElementById('prev');
+  const btnNext = document.getElementById('next');
+  let index = 0, timer = null, DURATION = 5000;
+
+  slides.forEach(slide => {
+    const img = slide.querySelector('img');
+    if (img && img.src) slide.style.setProperty('--bg-img', `url("${img.src}")`);
+  });
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i, true));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function setActive(i) {
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    dots.forEach((d,k)=>d.classList.toggle('active',k===i));
+  }
+  function next(){ index=(index+1)%slides.length; setActive(index); }
+  function prev(){ index=(index-1+slides.length)%slides.length; setActive(index); }
+  function goTo(i,reset){ index=(i+slides.length)%slides.length; setActive(index); if(reset) restart(); }
+  function start(){ stop(); timer=setInterval(next,DURATION); }
+  function stop(){ if(timer) clearInterval(timer); }
+  function restart(){ stop(); start(); }
+
+  btnNext.addEventListener('click',()=>{ next(); restart(); });
+  btnPrev.addEventListener('click',()=>{ prev(); restart(); });
+  slideshow.addEventListener('mouseenter',stop);
+  slideshow.addEventListener('mouseleave',start);
+  document.addEventListener('visibilitychange',()=>{ document.hidden?stop():start(); });
+
+  start();
+})();
+</script>
 </body>
 </html>
-
