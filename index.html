@@ -15,7 +15,7 @@
       --gap:20px;
       --radius:18px;
       --banner-max-h:clamp(420px,72vh,860px);
-      --banner-max-h-sm:clamp(280px,60vh,600px);
+      --banner-max-h-sm:clamp(260px,55vh,520px);
       --dur:5000ms;
       --fade:1500ms;
     }
@@ -61,7 +61,7 @@
       width:100%;
       max-width:1800px;
       border-radius:28px;
-      padding:20px 20px 16px;
+      padding:32px 20px 16px;
       background:
         radial-gradient(circle at top,#151515 0,#050509 45%,#000 100%);
       box-shadow:
@@ -104,7 +104,7 @@
     .frame-header{
       position:relative;
       z-index:3;
-      padding:10px 24px 16px;
+      padding:32px 24px 16px;
     }
 
     .header-top-row{
@@ -162,6 +162,7 @@
       justify-content:center;
       gap:10px;
       color:var(--cinza);
+      text-align:center;
     }
     .context-dot{
       width:4px;
@@ -372,7 +373,7 @@
       color:inherit;
     }
 
-    /* >>> AUMENTADO: módulos de trabalho maiores <<< */
+    /* módulos de trabalho */
     .link-card figure{
       margin:0;
       padding:12px 14px 14px;
@@ -380,8 +381,8 @@
       background:radial-gradient(circle at top,#202020 0,#050509 55%,#000 100%);
       border:1px solid rgba(255,255,255,0.07);
       box-shadow:0 12px 30px rgba(0,0,0,0.9);
-      width:250px;           /* antes ~210px */
-      max-width:280px;       /* mais destaque */
+      width:250px;
+      max-width:280px;
       transition:transform .2s,box-shadow .2s,border-color .2s;
       display:flex;
       flex-direction:column;
@@ -389,7 +390,7 @@
     }
 
     .link-card img{
-      width:100px;           /* antes 80px */
+      width:100px;
       height:100px;
       object-fit:contain;
       border-radius:14px;
@@ -400,6 +401,7 @@
     .caption{
       font-size:.95rem;
       color:var(--amarelo);
+      text-align:center;
     }
 
     .link-card figure:hover{
@@ -413,12 +415,12 @@
     /* ===== Destaques do mês (diminuído) ===== */
 
     .destaque-section{
-      margin:0 0 18px;   /* menos espaço vertical */
+      margin:0 0 18px;
     }
 
     .destaque-title{
       text-align:left;
-      font-size:.92rem;  /* título menor */
+      font-size:.92rem;
     }
 
     .destaque-banner{
@@ -426,7 +428,7 @@
       margin-left:auto;
       margin-right:auto;
       width:100%;
-      max-width:800px;   /* limita o tamanho do destaque */
+      max-width:800px;
       border-radius:18px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,0.07);
@@ -571,72 +573,106 @@
       backdrop-filter:blur(2px);
     }
 
+    /* ========== AJUSTES MOBILE ========== */
+
     @media (max-width:900px){
       body{
-        padding:12px 4px;
+        padding:10px 4px;
       }
+
       .frame{
-        padding:16px 12px 10px;
+        padding:88px 12px 10px;          /* espaço extra pro brasão */
       }
+
+      .frame::before{
+        inset:26px 12px 20px;
+      }
+
       .frame::after{
-        inset:26px 18px 26px;
+        inset:36px 18px 26px;
       }
+
       .brasao-header{
-        top:26px;
-        height:96px;
+        top:8px;
+        height:90px;
       }
+
       .frame-header{
         padding:6px 16px 12px;
       }
+
       .header-top-row{
         flex-direction:column;
         align-items:flex-start;
         gap:10px;
       }
+
       .header-left{
         max-width:100%;
       }
+
       .titulo-sistema{
         font-size:1.1rem;
       }
+
       .hero-section,
       main{
         padding:6px 12px 12px;
       }
+
+      /* banner + slideshow mais baixos no mobile */
       .banner-box,
       .slideshow-wrap{
         height:var(--banner-max-h-sm);
       }
+
+      /* pastas: 2 por linha, sem rolagem lateral */
       .link-section{
-        justify-content:flex-start;
+        justify-content:center;
+        gap:14px;
       }
+
       .link-card figure{
-        width:47vw;
-        max-width:none;
+        width:calc(50% - 10px);
+        max-width:260px;
       }
+
       .top-actions{
-        top:12px;
+        top:10px;
         right:10px;
       }
+
       .badge-sistema{
         font-size:.7rem;
       }
     }
 
     @media (max-width:600px){
+      .frame{
+        padding:96px 10px 10px;          /* mais um pouco pro brasão + título */
+      }
+
       .brasao-header{
-        top:24px;
+        top:10px;
         height:82px;
       }
-      .link-card figure{
-        width:100%;
-      }
+
       .section-title{
         font-size:.95rem;
       }
+
       .context-bar{
         font-size:.72rem;
+        flex-wrap:wrap;
+        row-gap:4px;
       }
+
+      /* pastas: 1 por linha no celular */
+      .link-card figure{
+        width:100%;
+        max-width:none;
+      }
+
       .arrow{
         font-size:1.5rem;
         padding:6px 10px;
