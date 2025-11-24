@@ -7,112 +7,356 @@
   <style>
     :root{
       --amarelo:#FFFF00;
+      --amarelo-neon:#f9ff7a;
       --cinza:#ccc;
+      --cinza-medio:#777;
       --bg:#000;
+      --card-bg:rgba(10,10,15,0.96);
       --gap:20px;
-      --radius:10px;
-      --banner-max-h:clamp(480px,78vh,960px);
-      --banner-max-h-sm:clamp(320px,65vh,720px);
+      --radius:18px;
+      --banner-max-h:clamp(420px,72vh,860px);
+      --banner-max-h-sm:clamp(280px,60vh,600px);
       --dur:5000ms;
       --fade:1500ms;
     }
 
-    *{box-sizing:border-box}
+    *{box-sizing:border-box;}
+
     body{
       margin:0;
-      background-color:var(--bg);
-      font-family:Arial,sans-serif;
+      min-height:100vh;
+      font-family:Arial,Helvetica,sans-serif;
       color:var(--amarelo);
-      text-align:center;
+      background:
+        radial-gradient(circle at top, #222 0, #000 55%) fixed;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+      padding:16px 8px;
       overflow-x:hidden;
     }
 
-    h1,h2{margin:20px 10px;font-size:1.8em;}
+    h1,h2{
+      margin:0 0 10px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
 
-    /* ===== Login ===== */
-    #loginBox{
-      height:100vh;
+    /* ====== SHELL / MOLDURA GERAL (APENAS APÓS LOGIN) ====== */
+
+    #siteConteudo{
+      display:none;
       width:100%;
-      background:#000;
-      color:var(--amarelo);
+    }
+
+    .app-shell{
+      width:100%;
+      display:flex;
+      justify-content:center;
+    }
+
+    .frame{
+      position:relative;
+      width:100%;
+      max-width:1800px;
+      border-radius:28px;
+      padding:20px 20px 16px;
+      background:
+        radial-gradient(circle at top,#151515 0,#050509 45%,#000 100%);
+      box-shadow:
+        0 0 0 1px rgba(255,255,0,0.18),
+        0 0 35px rgba(0,0,0,0.9),
+        0 0 120px rgba(255,255,0,0.16);
+      overflow:hidden;
+    }
+
+    .frame::before,
+    .frame::after{
+      content:"";
+      position:absolute;
+      inset:16px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,0,0.3);
+      opacity:.5;
+      pointer-events:none;
+    }
+
+    .frame::after{
+      inset:32px 40px 40px;
+      border-color:rgba(255,255,255,0.06);
+      box-shadow:0 0 40px rgba(0,0,0,0.8) inset;
+    }
+
+    .brasao-header{
+      position:absolute;
+      top:-35px;
+      left:50%;
+      transform:translateX(-50%);
+      height:200px;
+      max-width:300px;
+      object-fit:contain;
+      z-index:4;
+      pointer-events:none;
+      filter:drop-shadow(0 0 12px rgba(0,0,0,0.9));
+    }
+
+    .frame-header{
+      position:relative;
+      z-index:3;
+      padding:10px 24px 16px;
+    }
+
+    .header-top-row{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+    }
+
+    .header-left{
+      max-width:55%;
+    }
+
+    .titulo-sistema{
+      font-size:1.4rem;
+    }
+
+    .subtitulo-sistema{
+      margin:0;
+      font-size:.9rem;
+      color:var(--cinza);
+      text-transform:none;
+      letter-spacing:.03em;
+    }
+
+    .header-right{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:8px;
+      min-width:210px;
+    }
+
+    .badge-sistema{
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,0,0.7);
+      background:linear-gradient(135deg,rgba(255,255,0,0.16),rgba(0,0,0,0.7));
+      box-shadow:0 0 12px rgba(255,255,0,0.25);
+      white-space:nowrap;
+    }
+
+    .context-bar{
+      margin-top:14px;
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,0,0.25);
+      background:linear-gradient(90deg,rgba(255,255,0,0.06),rgba(0,0,0,0.8));
+      font-size:.78rem;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      color:var(--cinza);
+    }
+    .context-dot{
+      width:4px;
+      height:4px;
+      border-radius:50%;
+      background:var(--amarelo);
+      opacity:.9;
+    }
+
+    /* ===== Login (tela cheia) ===== */
+    #loginBox{
+      position:fixed;
+      inset:0;
+      z-index:99;
+      background:
+        radial-gradient(circle at top,#202020 0,#000 55%);
       display:flex;
       justify-content:center;
       align-items:center;
+      padding:16px;
     }
+
     .login-card{
-      background:#111;
-      border:1px solid #333;
-      border-radius:12px;
-      padding:30px;
-      width:min(400px,90%);
-      box-shadow:0 0 20px rgba(255,255,0,0.3);
+      position:relative;
+      background:var(--card-bg);
+      border-radius:22px;
+      padding:28px 24px 22px;
+      width:min(420px,100%);
+      box-shadow:
+        0 0 0 1px rgba(255,255,0,0.25),
+        0 20px 60px rgba(0,0,0,0.95);
       text-align:center;
+      overflow:hidden;
     }
-    .login-card h1{margin:0 0 10px;font-size:1.6em;}
-    .login-card p{color:var(--cinza);margin-bottom:20px;}
+
+    .login-card::before{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.07);
+      pointer-events:none;
+    }
+
+    .login-card h1{
+      margin:0 0 6px;
+      font-size:1.4rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .login-card p{
+      color:var(--cinza);
+      margin:0 0 18px;
+      font-size:.9rem;
+    }
+
     .login-card input{
       width:100%;
-      padding:10px;
-      margin:8px 0;
-      border-radius:8px;
+      padding:10px 11px;
+      margin:6px 0;
+      border-radius:10px;
       border:1px solid #333;
-      background:#000;
+      background:#050509;
       color:#fff;
-      font-size:1em;
+      font-size:.95rem;
     }
-    .login-card input:focus{outline:none;border-color:var(--amarelo);}
+
+    .login-card input:focus{
+      outline:none;
+      border-color:var(--amarelo);
+      box-shadow:0 0 0 1px rgba(255,255,0,0.4);
+    }
+
     .login-card button{
       background:var(--amarelo);
       color:#000;
       border:none;
-      border-radius:20px;
-      padding:10px 20px;
+      border-radius:999px;
+      padding:9px 22px;
       font-weight:bold;
+      font-size:.95rem;
       cursor:pointer;
       margin-top:10px;
-      transition:background .2s;
+      transition:transform .18s,box-shadow .18s,background .18s;
+      box-shadow:0 0 14px rgba(255,255,0,0.55);
     }
-    .login-card button:hover{background:#ffea00;}
-    .erro{color:#f66;font-size:.9em;height:1em;margin-top:8px;}
-    footer{margin-top:40px;font-size:.9em;color:var(--cinza);padding:20px;}
-    
-    /* ===== Site normal (só aparece após login) ===== */
-    #siteConteudo{display:none;}
-    
+
+    .login-card button:hover{
+      background:var(--amarelo-neon);
+      transform:translateY(-1px);
+      box-shadow:0 0 22px rgba(255,255,0,0.75);
+    }
+
+    .erro{
+      color:#f66;
+      font-size:.85rem;
+      min-height:1.1em;
+      margin-top:8px;
+    }
+
+    footer{
+      margin-top:22px;
+      font-size:.8rem;
+      color:var(--cinza);
+      text-align:center;
+    }
+
+    /* ===== topo / banner principal ===== */
+
+    .hero-section{
+      padding:6px 24px 18px;
+      position:relative;
+      z-index:2;
+    }
+
     .banner-box{
       width:100%;
       height:var(--banner-max-h);
-      background-color:var(--bg);
+      background:radial-gradient(circle at top,#1b1b1b 0,#050509 50%,#000 100%);
       overflow:hidden;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      border-radius:var(--radius);
+      border-radius:20px;
       position:relative;
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow:0 18px 60px rgba(0,0,0,0.85);
     }
+
     .banner{
       width:100%;
       height:100%;
       object-fit:contain;
       display:block;
-      background-color:var(--bg);
     }
 
-    /* Barra de topo com ações */
+    /* botões topo (registro / sair) */
     .top-actions{
-      position:absolute;top:10px;right:10px;display:flex;gap:8px;align-items:center;
+      position:absolute;
+      top:14px;
+      right:16px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      z-index:5;
     }
+
     .btn{
-      background:#FFFF00;
+      background:var(--amarelo);
       color:#000;
       border:none;
-      border-radius:20px;
-      padding:6px 12px;
+      border-radius:999px;
+      padding:6px 14px;
       font-weight:bold;
+      font-size:.8rem;
       cursor:pointer;
+      transition:transform .18s,box-shadow .18s,background .18s,color .18s;
+      white-space:nowrap;
     }
+
+    .btn:hover{
+      background:var(--amarelo-neon);
+      transform:translateY(-1px);
+      box-shadow:0 0 16px rgba(255,255,0,0.75);
+    }
+
     .btn.sec{
-      background:#222;color:#FFFF00;border:1px solid #FFFF00;
+      background:transparent;
+      color:var(--amarelo);
+      border:1px solid rgba(255,255,0,0.7);
+      box-shadow:none;
+    }
+
+    .btn.sec:hover{
+      background:rgba(255,255,0,0.08);
+      box-shadow:0 0 14px rgba(255,255,0,0.4);
+    }
+
+    /* ===== seção de atalhos (Módulos de Trabalho) ===== */
+
+    main{
+      padding:8px 24px 10px;
+      position:relative;
+      z-index:2;
+    }
+
+    .section-title{
+      margin:12px 0 6px;
+      font-size:1.05rem; /* levemente maior */
+    }
+
+    .section-sub{
+      margin:0 0 16px;
+      font-size:.82rem;
+      color:var(--cinza-medio);
+      text-transform:none;
+      letter-spacing:.03em;
     }
 
     .link-section{
@@ -120,77 +364,283 @@
       flex-wrap:wrap;
       justify-content:center;
       gap:var(--gap);
-      margin:30px 10px;
+      margin:6px 0 26px;
     }
-    .link-section a img{
-      width:180px;
-      transition:transform .3s,box-shadow .3s;
-      border-radius:var(--radius);
-    }
-    .link-section a img:hover{
-      transform:scale(1.05);
-      box-shadow:0 0 20px 5px rgba(255,215,0,0.6);
-      cursor:pointer;
-    }
-    .caption{font-size:22px;color:var(--amarelo);margin-top:10px;}
 
-    /* ===== Slideshow ===== */
+    .link-card{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    /* >>> AUMENTADO: módulos de trabalho maiores <<< */
+    .link-card figure{
+      margin:0;
+      padding:12px 14px 14px;
+      border-radius:18px;
+      background:radial-gradient(circle at top,#202020 0,#050509 55%,#000 100%);
+      border:1px solid rgba(255,255,255,0.07);
+      box-shadow:0 12px 30px rgba(0,0,0,0.9);
+      width:250px;           /* antes ~210px */
+      max-width:280px;       /* mais destaque */
+      transition:transform .2s,box-shadow .2s,border-color .2s;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    .link-card img{
+      width:100px;           /* antes 80px */
+      height:100px;
+      object-fit:contain;
+      border-radius:14px;
+      margin-bottom:10px;
+      filter:drop-shadow(0 0 12px rgba(0,0,0,0.9));
+    }
+
+    .caption{
+      font-size:.95rem;
+      color:var(--amarelo);
+    }
+
+    .link-card figure:hover{
+      transform:translateY(-3px) scale(1.03);
+      border-color:rgba(255,255,0,0.7);
+      box-shadow:
+        0 0 0 1px rgba(255,255,0,0.25),
+        0 18px 45px rgba(0,0,0,0.95);
+    }
+
+    /* ===== Destaques do mês (diminuído) ===== */
+
+    .destaque-section{
+      margin:0 0 18px;   /* menos espaço vertical */
+    }
+
+    .destaque-title{
+      text-align:left;
+      font-size:.92rem;  /* título menor */
+    }
+
+    .destaque-banner{
+      margin-top:8px;
+      margin-left:auto;
+      margin-right:auto;
+      width:100%;
+      max-width:800px;   /* limita o tamanho do destaque */
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.07);
+      background:#050509;
+      box-shadow:0 10px 32px rgba(0,0,0,0.85);
+    }
+
+    .destaque-banner img{
+      width:100%;
+      display:block;
+      object-fit:contain;
+    }
+
+    /* ===== Galeria / Slideshow ===== */
+
+    .galeria-section{
+      margin:0 0 12px;
+    }
+
     .slideshow-wrap{
       width:100%;
       height:var(--banner-max-h);
       display:flex;
       justify-content:center;
       align-items:center;
-      background:var(--bg);
+      background:radial-gradient(circle at top,#1b1b1b 0,#050509 50%,#000 100%);
       overflow:hidden;
-      border-radius:var(--radius);
+      border-radius:20px;
       position:relative;
-      z-index:0;
+      box-shadow:0 18px 60px rgba(0,0,0,0.9);
+      border:1px solid rgba(255,255,255,0.06);
     }
-    .slideshow{position:relative;width:100%;height:100%;overflow:hidden;}
+
+    .slideshow{
+      position:relative;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+    }
+
     .slide{
-      position:absolute;inset:0;opacity:0;
+      position:absolute;
+      inset:0;
+      opacity:0;
       transition:opacity var(--fade) ease-in-out;
     }
+
     .slide::before{
       content:"";
-      position:absolute;inset:0;
+      position:absolute;
+      inset:0;
       background-image:var(--bg-img,none);
       background-size:cover;
       background-position:center;
-      filter:blur(24px) brightness(0.6);
+      filter:blur(24px) brightness(0.55);
       transform:scale(1.1);
     }
+
     .slide img{
-      position:relative;width:100%;height:100%;
-      object-fit:contain;display:block;user-select:none;
+      position:relative;
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      user-select:none;
     }
+
     .slide.active{opacity:1;}
+
     .dots{
-      position:absolute;left:50%;transform:translateX(-50%);
-      bottom:12px;display:flex;gap:8px;z-index:5;
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:14px;
+      display:flex;
+      gap:8px;
+      z-index:5;
     }
+
     .dot{
-      width:10px;height:10px;border-radius:50%;
-      background:rgba(255,255,255,.45);
-      transition:transform .2s,background .2s;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:rgba(255,255,255,.4);
+      transition:transform .2s,background .2s,box-shadow .2s;
     }
-    .dot.active{background:#fff;transform:scale(1.2);}
+
+    .dot.active{
+      background:#fff;
+      transform:scale(1.25);
+      box-shadow:0 0 10px rgba(255,255,255,0.8);
+    }
+
     .arrow{
-      position:absolute;top:50%;transform:translateY(-50%);
-      font-size:2em;color:#fff;background:rgba(0,0,0,0.4);
-      border:none;padding:10px 15px;border-radius:50%;
-      cursor:pointer;z-index:6;
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      font-size:1.7rem;
+      color:#fff;
+      background:rgba(0,0,0,0.55);
+      border:none;
+      padding:8px 13px;
+      border-radius:999px;
+      cursor:pointer;
+      z-index:6;
+      transition:background .18s,transform .18s,box-shadow .18s;
     }
-    .arrow:hover{background:rgba(255,255,255,0.3);}
-    .arrow.left{left:15px;}
-    .arrow.right{right:15px;}
+
+    .arrow:hover{
+      background:rgba(255,255,255,0.2);
+      box-shadow:0 0 18px rgba(0,0,0,0.9);
+      transform:translateY(-50%) scale(1.04);
+    }
+
+    .arrow.left{left:18px;}
+    .arrow.right{right:18px;}
+
+    .frame-footer{
+      margin-top:16px;
+      padding:4px 24px 4px;
+      border-top:1px solid rgba(255,255,255,0.08);
+      font-size:.78rem;
+      color:var(--cinza);
+      text-align:right;
+    }
+
+    dialog#audit-modal{
+      border:none;
+      border-radius:18px;
+      max-width:980px;
+      width:95%;
+      padding:0;
+      background:#050509;
+      color:var(--amarelo);
+      box-shadow:
+        0 0 0 1px rgba(255,255,0,0.3),
+        0 25px 80px rgba(0,0,0,0.95);
+    }
+
+    dialog::backdrop{
+      background:rgba(0,0,0,0.8);
+      backdrop-filter:blur(2px);
+    }
+
+    @media (max-width:900px){
+      body{
+        padding:12px 4px;
+      }
+      .frame{
+        padding:16px 12px 10px;
+      }
+      .frame::after{
+        inset:26px 18px 26px;
+      }
+      .brasao-header{
+        top:26px;
+        height:96px;
+      }
+      .frame-header{
+        padding:6px 16px 12px;
+      }
+      .header-top-row{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+      }
+      .header-left{
+        max-width:100%;
+      }
+      .titulo-sistema{
+        font-size:1.1rem;
+      }
+      .hero-section,
+      main{
+        padding:6px 12px 12px;
+      }
+      .banner-box,
+      .slideshow-wrap{
+        height:var(--banner-max-h-sm);
+      }
+      .link-section{
+        justify-content:flex-start;
+      }
+      .link-card figure{
+        width:47vw;
+        max-width:none;
+      }
+      .top-actions{
+        top:12px;
+        right:10px;
+      }
+      .badge-sistema{
+        font-size:.7rem;
+      }
+    }
 
     @media (max-width:600px){
-      h1{font-size:1.5em;}h2{font-size:1.2em;}
-      .banner-box,.slideshow-wrap{height:var(--banner-max-h-sm);}
-      .link-section{flex-direction:column;align-items:center;}
-      .link-section a img{width:90%;max-width:360px;}
+      .brasao-header{
+        top:24px;
+        height:82px;
+      }
+      .link-card figure{
+        width:100%;
+      }
+      .section-title{
+        font-size:.95rem;
+      }
+      .context-bar{
+        font-size:.72rem;
+      }
+      .arrow{
+        font-size:1.5rem;
+        padding:6px 10px;
+      }
     }
   </style>
 </head>
@@ -200,87 +650,150 @@
 <div id="loginBox">
   <div class="login-card">
     <h1>Acesso Restrito</h1>
-    <p>Digite seu usuário e senha</p>
+    <p>Ambiente interno da 2ª Companhia – informe usuário e senha</p>
     <form id="formLogin">
       <input id="usuario" placeholder="Usuário" required>
       <input id="senha" type="password" placeholder="Senha" required>
       <button type="submit">Entrar</button>
       <div class="erro" id="erro"></div>
     </form>
+    <footer>&copy; 2025 - 18º BPM/I • Uso interno</footer>
   </div>
 </div>
 
 <!-- Conteúdo do site (oculto até login) -->
 <div id="siteConteudo">
-  <header>
-    <div class="banner-box">
-      <img src="topo.png" class="banner" alt="Topo 18º BPM/I">
+  <div class="app-shell">
+    <div class="frame">
+      <!-- brasão central na moldura -->
+      <img src="brasao18.png" alt="Brasão 18º BPM/I" class="brasao-header">
 
-      <!-- Ações no topo (aparecem após login) -->
-      <div class="top-actions">
-        <button id="btn-audit-open" class="btn sec" style="display:none">Registro de Acessos</button>
-        <button onclick="sair()" class="btn">Sair</button>
+      <!-- Cabeçalho -->
+      <header class="frame-header">
+        <div class="header-top-row">
+          <div class="header-left">
+            <h1 class="titulo-sistema">Gestão 2ª Cia do 18º BPM/I</h1>
+            <p class="subtitulo-sistema">
+              Sistema de gestão operacional e administrativa com acesso controlado.
+            </p>
+          </div>
+          <div class="header-right">
+            <span class="badge-sistema">Sistema de Gestão • Uso Interno</span>
+            <!-- botões de topo (registro / sair) -->
+            <div class="top-actions">
+              <button id="btn-audit-open" class="btn sec" style="display:none">Registro de Acessos</button>
+              <button onclick="sair()" class="btn">Sair</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="context-bar">
+          <span>2ª Companhia</span>
+          <span class="context-dot"></span>
+          <span>18º BPM/I – Policiamento Ostensivo</span>
+          <span class="context-dot"></span>
+          <span>Ambiente monitorado de acessos</span>
+        </div>
+      </header>
+
+      <!-- Banner topo -->
+      <section class="hero-section">
+        <div class="banner-box">
+          <img src="topo.png" class="banner" alt="Topo 18º BPM/I">
+        </div>
+      </section>
+
+      <!-- Conteúdo principal -->
+      <main>
+        <!-- Atalhos -->
+        <section>
+          <h2 class="section-title">Módulos de Trabalho</h2>
+          <p class="section-sub">
+            Acesse as planilhas e pastas operacionais da 2ª Companhia de forma rápida e organizada.
+          </p>
+          <div class="link-section">
+            <a class="link-card" href="https://docs.google.com/spreadsheets/d/18vwJtRh2IAvsJvNEZtA1uSpHikW7cmuAwsfhUVTBr7c/edit?usp=sharing" target="_blank">
+              <figure>
+                <img src="pasta.png" alt="Análise criminal">
+                <figcaption class="caption"><strong>Análise Criminal</strong></figcaption>
+              </figure>
+            </a>
+            <a class="link-card" href="https://drive.google.com/drive/folders/1xxyhzChozUNIYozhkGogJ4KkYixGolxr?usp=sharing" target="_blank">
+              <figure>
+                <img src="pasta.png" alt="Ordens de Serviço">
+                <figcaption class="caption"><strong>Ordens de Serviço</strong></figcaption>
+              </figure>
+            </a>
+            <a class="link-card" href="https://docs.google.com/spreadsheets/d/1_zKAEUIgF3DDnoMevwvCrqaIh-WtNQLvO2SQXovu_eU/edit?usp=sharing" target="_blank">
+              <figure>
+                <img src="pasta.png" alt="QAP">
+                <figcaption class="caption"><strong>QAP</strong></figcaption>
+              </figure>
+            </a>
+            <a class="link-card" href="https://docs.google.com/spreadsheets/d/1vT0B7PhLwElgYQEa6M0eUGQpP7EVnrSmxamf0QEB8wI/edit?usp=sharing" target="_blank">
+              <figure>
+                <img src="pasta.png" alt="Mapa de Viaturas">
+                <figcaption class="caption"><strong>Mapa de Viaturas</strong></figcaption>
+              </figure>
+            </a>
+            <a class="link-card" href="https://docs.google.com/spreadsheets/d/1BJcYe9m4GlRPfonB_W-LmM8ivXj1J2SG2QUO3hMnPeE/edit?usp=sharing" target="_blank">
+              <figure>
+                <img src="pasta.png" alt="Planejamento DEJEM">
+                <figcaption class="caption"><strong>Planejamento DEJEM</strong></figcaption>
+              </figure>
+            </a>
+            <a class="link-card" href="https://drive.google.com/drive/folders/1U_z4u6RuZcPWkgD3hQbueoDJdTgxXs8U?usp=sharing" target="_blank">
+              <figure>
+                <img src="pasta.png" alt="Escalas">
+                <figcaption class="caption"><strong>ESCALAS</strong></figcaption>
+              </figure>
+            </a>
+          </div>
+        </section>
+
+        <!-- Destaques (menor) -->
+        <section class="destaque-section">
+          <h2 class="section-title destaque-title">Destaques do mês</h2>
+          <div class="destaque-banner">
+            <img src="pmdomes.png" alt="Policial(es) do mês">
+          </div>
+        </section>
+
+        <!-- Galeria / Slideshow -->
+        <section class="galeria-section">
+          <h2 class="section-title">Galeria de fotos</h2>
+          <p class="section-sub">
+            Registros das principais operações e ações da 2ª Companhia.
+          </p>
+          <div class="slideshow-wrap">
+            <div class="slideshow" id="slideshow">
+              <figure class="slide active"><img src="foto1.jpg" alt=""></figure>
+              <figure class="slide"><img src="foto2.jpg" alt=""></figure>
+              <figure class="slide"><img src="foto3.jpg" alt=""></figure>
+              <figure class="slide"><img src="foto4.jpg" alt=""></figure>
+              <figure class="slide"><img src="foto5.jpg" alt=""></figure>
+              <figure class="slide"><img src="foto6.jpg" alt=""></figure>
+              <figure class="slide"><img src="foto7.jpg" alt=""></figure>
+              <figure class="slide"><img src="foto8.jpg" alt=""></figure>
+              <figure class="slide"><img src="foto9.jpg" alt=""></figure>
+
+              <button class="arrow left" id="prev">&#10094;</button>
+              <button class="arrow right" id="next">&#10095;</button>
+              <div class="dots" id="dots"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <div class="frame-footer">
+        &copy; 2025 - 18º Batalhão da Polícia Militar do Interior • 2ª Companhia
       </div>
     </div>
-    <h1>Sistema de Gestão da 2ª Companhia</h1>
-  </header>
-
-  <section>
-    <div class="link-section">
-      <a href="https://docs.google.com/spreadsheets/d/18vwJtRh2IAvsJvNEZtA1uSpHikW7cmuAwsfhUVTBr7c/edit?usp=sharing" target="_blank">
-        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>Análise Criminal</strong></figcaption></figure>
-      </a>
-      <a href="https://drive.google.com/drive/folders/1xxyhzChozUNIYozhkGogJ4KkYixGolxr?usp=sharing" target="_blank">
-        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>Ordens de Serviço</strong></figcaption></figure>
-      </a>
-      <a href="https://docs.google.com/spreadsheets/d/1_zKAEUIgF3DDnoMevwvCrqaIh-WtNQLvO2SQXovu_eU/edit?usp=sharing" target="_blank">
-        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>QAP</strong></figcaption></figure>
-      </a>
-      <a href="https://docs.google.com/spreadsheets/d/1vT0B7PhLwElgYQEa6M0eUGQpP7EVnrSmxamf0QEB8wI/edit?usp=sharing" target="_blank">
-        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>Mapa de Viaturas</strong></figcaption></figure>
-      </a>
-      <a href="https://docs.google.com/spreadsheets/d/1BJcYe9m4GlRPfonB_W-LmM8ivXj1J2SG2QUO3hMnPeE/edit?usp=sharing" target="_blank">
-        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>Planejamento DEJEM</strong></figcaption></figure>
-      </a>
-      <a href="https://drive.google.com/drive/folders/1U_z4u6RuZcPWkgD3hQbueoDJdTgxXs8U?usp=sharing" target="_blank">
-        <figure><img src="pasta.png" alt=""><figcaption class="caption"><strong>ESCALAS</strong></figcaption></figure>
-      </a>
-    </div>
-  </section>
-
-  <section>
-    <h1>Destaques do mês</h1>
-    <div class="banner-box">
-      <img src="pmdomes.png" class="banner" alt="PM do Mês">
-    </div>
-  </section>
-
-  <section>
-    <h2>Galeria de fotos</h2>
-    <div class="slideshow-wrap">
-      <div class="slideshow" id="slideshow">
-        <figure class="slide active"><img src="foto1.jpg" alt=""></figure>
-        <figure class="slide"><img src="foto2.jpg" alt=""></figure>
-        <figure class="slide"><img src="foto3.jpg" alt=""></figure>
-        <figure class="slide"><img src="foto4.jpg" alt=""></figure>
-        <figure class="slide"><img src="foto5.jpg" alt=""></figure>
-        <figure class="slide"><img src="foto6.jpg" alt=""></figure>
-        <figure class="slide"><img src="foto7.jpg" alt=""></figure>
-        <figure class="slide"><img src="foto8.jpg" alt=""></figure>
-        <figure class="slide"><img src="foto9.jpg" alt=""></figure>
-
-        <button class="arrow left" id="prev">&#10094;</button>
-        <button class="arrow right" id="next">&#10095;</button>
-        <div class="dots" id="dots"></div>
-      </div>
-    </div>
-  </section>
-
-  <footer>&copy; 2025 - 18º Batalhão da Polícia Militar do Interior</footer>
+  </div>
 </div>
 
 <!-- ===== Modal do Registro de Acessos ===== -->
-<dialog id="audit-modal" style="border:none;border-radius:12px;max-width:980px;width:95%;padding:0;background:#000;color:#FFFF00">
+<dialog id="audit-modal">
   <header style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #333">
     <strong style="font-size:18px">Registro de Acessos</strong>
     <button id="audit-close" class="btn sec">Fechar</button>
@@ -349,12 +862,10 @@
 
 <script>
 /* ================== Login e usuários ================== */
-/* Nota: o usuário digitado é convertido para minúsculas para evitar erro de maiúsc./minúsc. */
 const usuarios = {
-  "fenille": "Tatico25",            // ✅ Novo administrador (digite Fenille ou fenille)
+  "fenille": "Tatico25",
   "analista": "ocorrencia#destaque",
 
-  /* === REs (exemplos — pode manter/expandir) === */
   "140965": "140965",
   "picinin": "picinin",
   "139041": "139041",
@@ -477,7 +988,7 @@ if (userStored) {
 document.getElementById("formLogin").addEventListener("submit", async (e) => {
   e.preventDefault();
   const uRaw = document.getElementById("usuario").value.trim();
-  const u = uRaw.toLowerCase();   // normaliza para login
+  const u = uRaw.toLowerCase();
   const s = document.getElementById("senha").value;
 
   if (usuarios[u] && usuarios[u] === s) {
@@ -496,7 +1007,6 @@ function mostrarSite(u){
   loginBox.style.display = "none";
   siteConteudo.style.display = "block";
 
-  // Mostrar botão de Registro de Acessos só para fenille e analista
   if (u === "fenille" || u === "analista") {
     btnAuditOpen.style.display = "inline-block";
   } else {
@@ -514,7 +1024,7 @@ async function sair() {
   location.reload();
 }
 
-/* ================== Registro de Acessos (Audit Log) ================== */
+/* ================== Registro de Acessos ================== */
 const KEY_LOG = "gestao18_auditlog";
 function salvar(key, obj){ localStorage.setItem(key, JSON.stringify(obj)); }
 function ler(key, def=null){ try { return JSON.parse(localStorage.getItem(key)) ?? def; } catch { return def; } }
@@ -532,17 +1042,16 @@ function pushLog(evento, extra={}){
   logs.push({
     ts: new Date().toISOString(),
     evento,
-    role: extra.role || "-",     // campo role reservado, se quiser usar no futuro
+    role: extra.role || "-",
     ...extra,
     ...deviceInfo()
   });
-  salvar(KEY_LOG, logs.slice(-2000)); // últimos 2000 eventos
+  salvar(KEY_LOG, logs.slice(-2000));
 }
 
-/* ====== >>> INTEGRAÇÃO COM GOOGLE SHEETS (CENTRALIZADO) <<< ====== */
-const AUDIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwB4GSFaj8i_mk4Sl0KVN3f9H-4ywXXAQhryWvjAhPzh1J8ottihpedDoJxowACjKPLcQ/exec';
+/* ===== Integração com Google Sheets ===== */
+const AUDIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwMJGNOgtKFLTp7RJKFgFE_j_5UbvX196uEj21_MI3l524flrc9fXgVZkTszr26SH8MFg/exe';
 
-// Envia para a planilha (POST). Usa no-cors para evitar erros de CORS no front.
 async function logAcessoRemoto({ usuario, sucesso, page = location.pathname, extra = '', evento = '' }) {
   try {
     const payload = {
@@ -554,7 +1063,7 @@ async function logAcessoRemoto({ usuario, sucesso, page = location.pathname, ext
     };
     await fetch(AUDIT_ENDPOINT, {
       method: 'POST',
-      mode: 'no-cors', // troque para 'cors' se habilitar CORS no Apps Script
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
@@ -563,8 +1072,6 @@ async function logAcessoRemoto({ usuario, sucesso, page = location.pathname, ext
   }
 }
 
-// Backup local já é feito pelo pushLog() nos pontos de evento.
-// Esta função unifica a chamada remota.
 async function registrarAcesso({ usuario, sucesso, extra = '', evento = '' }) {
   await logAcessoRemoto({ usuario, sucesso, extra, evento });
 }
@@ -574,7 +1081,6 @@ const $auditModal = document.querySelector("#audit-modal");
 const $auditClose = document.querySelector("#audit-close");
 const $auditTbl   = document.querySelector("#audit-table tbody");
 
-// Filtros
 const $filUser   = document.querySelector("#fil-user");
 const $filEvent  = document.querySelector("#fil-event");
 const $filD1     = document.querySelector("#fil-d1");
@@ -582,7 +1088,6 @@ const $filD2     = document.querySelector("#fil-d2");
 const $filAplic  = document.querySelector("#fil-aplicar");
 const $filLimpar = document.querySelector("#fil-limpar");
 
-// Ações
 const $expCSV = document.querySelector("#audit-export-csv");
 const $expJSON= document.querySelector("#audit-export-json");
 const $clear  = document.querySelector("#audit-clear");
@@ -717,5 +1222,3 @@ $clear?.addEventListener("click", ()=>{
 </script>
 </body>
 </html>
-
-
