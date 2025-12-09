@@ -61,7 +61,7 @@
       width:100%;
       max-width:1800px;
       border-radius:28px;
-      padding:32px 20px 16px;
+      padding:28px 20px 0px;
       background:
         radial-gradient(circle at top,#151515 0,#050509 45%,#000 100%);
       box-shadow:
@@ -90,7 +90,7 @@
 
     .brasao-header{
       position:absolute;
-      top:-35px;
+      top:-30px;
       left:50%;
       transform:translateX(-50%);
       height:200px;
@@ -104,7 +104,7 @@
     .frame-header{
       position:relative;
       z-index:3;
-      padding:32px 24px 16px;
+      padding:28px 24px -200px; /* um pouco menos embaixo pra aproximar do banner */
     }
 
     .header-top-row{
@@ -274,7 +274,8 @@
     /* ===== topo / banner principal ===== */
 
     .hero-section{
-      padding:6px 24px 18px;
+      margin-top:-100px;            /* puxa o banner pra encostar na moldura */
+      padding:0 24px -100px;        /* sem espaço em cima, só embaixo */
       position:relative;
       z-index:2;
     }
@@ -342,18 +343,18 @@
     /* ===== seção de atalhos (Módulos de Trabalho) ===== */
 
     main{
-      padding:8px 24px 10px;
+      padding:0 24px 10px;   /* cola a seção de módulos logo abaixo do banner */
       position:relative;
       z-index:2;
     }
 
     .section-title{
-      margin:12px 0 6px;
-      font-size:1.05rem; /* levemente maior */
+      margin:8px 0 6px;      /* só um respiro pequeno após o banner */
+      font-size:1.05rem;
     }
 
     .section-sub{
-      margin:0 0 16px;
+      margin:0 0 14px;
       font-size:.82rem;
       color:var(--cinza-medio);
       text-transform:none;
@@ -365,7 +366,7 @@
       flex-wrap:wrap;
       justify-content:center;
       gap:var(--gap);
-      margin:6px 0 26px;
+      margin:4px 0 24px;
     }
 
     .link-card{
@@ -581,7 +582,7 @@
       }
 
       .frame{
-        padding:88px 12px 10px;          /* espaço extra pro brasão */
+        padding:88px 12px 10px;
       }
 
       .frame::before{
@@ -598,7 +599,7 @@
       }
 
       .frame-header{
-        padding:6px 16px 12px;
+        padding:6px 16px 6px;
       }
 
       .header-top-row{
@@ -615,18 +616,20 @@
         font-size:1.1rem;
       }
 
-      .hero-section,
-      main{
-        padding:6px 12px 12px;
+      .hero-section{
+        margin-top:-4px;
+        padding:0 12px 8px;
       }
 
-      /* banner + slideshow mais baixos no mobile */
+      main{
+        padding:0 12px 10px;
+      }
+
       .banner-box,
       .slideshow-wrap{
         height:var(--banner-max-h-sm);
       }
 
-      /* pastas: 2 por linha, sem rolagem lateral */
       .link-section{
         justify-content:center;
         gap:14px;
@@ -649,7 +652,7 @@
 
     @media (max-width:600px){
       .frame{
-        padding:96px 10px 10px;          /* mais um pouco pro brasão + título */
+        padding:96px 10px 10px;
       }
 
       .brasao-header{
@@ -667,7 +670,6 @@
         row-gap:4px;
       }
 
-      /* pastas: 1 por linha no celular */
       .link-card figure{
         width:100%;
         max-width:none;
@@ -771,7 +773,7 @@
                 <img src="pasta.png" alt="Mapa de Viaturas">
                 <figcaption class="caption"><strong>Mapa de Viaturas</strong></figcaption>
               </figure>
-              </a>
+            </a>
             <a class="link-card" href="https://fenille.github.io/audiencias/" target="_blank">
               <figure>
                 <img src="pasta.png" alt="Consulta de Audiências">
@@ -795,19 +797,18 @@
                 <img src="pasta.png" alt="Escalas">
                 <figcaption class="caption"><strong>ESCALAS</strong></figcaption>
               </figure>
-                   </a>
+            </a>
             <a class="link-card" href="https://docs.google.com/forms/d/e/1FAIpQLSc8JEKHMHQZ8gOjFSE32TUYyQdcfjUx6MX2RHyN2NU7vjVjDA/viewform" target="_blank">
               <figure>
                 <img src="pasta.png" alt="Planilhas Dejem">
                 <figcaption class="caption"><strong>PLANILHAS DEJEM/DELEGADA</strong></figcaption>
               </figure>
-               </a>
+            </a>
             <a class="link-card" href="https://fenille.github.io/resultados/" target="_blank">
               <figure>
                 <img src="pasta.png" alt="Resultados 0h">
                 <figcaption class="caption"><strong>Resultado 0h</strong></figcaption>
               </figure>
-              
             </a>
           </div>
         </section>
@@ -1031,6 +1032,7 @@ const usuarios = {
   "191234": "191234",
   "191921": "191921",
   "104547": "104547",
+  "972381": "972381",
   "192696": "192696"
 };
 
@@ -1283,6 +1285,3 @@ $clear?.addEventListener("click", ()=>{
 </script>
 </body>
 </html>
-
-
-
