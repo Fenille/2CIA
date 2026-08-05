@@ -61,7 +61,7 @@
       width:100%;
       max-width:1800px;
       border-radius:28px;
-      padding:28px 20px 0px;
+      padding:18px 20px 0;
       background:
         radial-gradient(circle at top,#151515 0,#050509 45%,#000 100%);
       box-shadow:
@@ -89,33 +89,38 @@
     }
 
     .brasao-header{
-      position:absolute;
-      top:-30px;
-      left:50%;
-      transform:translateX(-50%);
-      height:200px;
-      max-width:300px;
+      position:static;
+      display:block;
+      width:130px;
+      height:118px;
+      max-width:100%;
       object-fit:contain;
-      z-index:4;
       pointer-events:none;
       filter:drop-shadow(0 0 12px rgba(0,0,0,0.9));
+    }
+
+    .header-brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-width:140px;
     }
 
     .frame-header{
       position:relative;
       z-index:3;
-      padding:28px 24px -200px; /* um pouco menos embaixo pra aproximar do banner */
+      padding:8px 24px 14px;
     }
 
     .header-top-row{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:18px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr);
+      align-items:center;
+      gap:24px;
     }
 
     .header-left{
-      max-width:55%;
+      min-width:0;
     }
 
     .titulo-sistema{
@@ -135,7 +140,7 @@
       flex-direction:column;
       align-items:flex-end;
       gap:8px;
-      min-width:210px;
+      min-width:0;
     }
 
     .badge-sistema{
@@ -274,8 +279,8 @@
     /* ===== topo / banner principal ===== */
 
     .hero-section{
-      margin-top:-100px;            /* puxa o banner pra encostar na moldura */
-      padding:0 24px -100px;        /* sem espaço em cima, só embaixo */
+      margin-top:0;
+      padding:0 24px;
       position:relative;
       z-index:2;
     }
@@ -300,9 +305,7 @@
 
     /* botões topo (registro / sair) */
     .top-actions{
-      position:absolute;
-      top:14px;
-      right:16px;
+      position:static;
       display:flex;
       gap:8px;
       align-items:center;
@@ -413,34 +416,162 @@
         0 18px 45px rgba(0,0,0,0.95);
     }
 
-    /* ===== Destaques do mês (diminuído) ===== */
+    /* ===== Destaques do mês ===== */
 
     .destaque-section{
-      margin:0 0 18px;
+      margin:8px 0 28px;
     }
 
     .destaque-title{
       text-align:left;
-      font-size:.92rem;
+      font-size:1.05rem;
     }
 
     .destaque-banner{
-      margin-top:8px;
+      position:relative;
+      margin-top:12px;
       margin-left:auto;
       margin-right:auto;
       width:100%;
-      max-width:1200px;
-      border-radius:18px;
+      max-width:1500px;
+      aspect-ratio:16/9;
+      min-height:260px;
+      max-height:760px;
+      border-radius:22px;
       overflow:hidden;
-      border:1px solid rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,0,0.22);
       background:#050509;
-      box-shadow:0 10px 32px rgba(0,0,0,0.85);
+      box-shadow:
+        0 18px 50px rgba(0,0,0,0.9),
+        0 0 32px rgba(255,255,0,0.08);
     }
 
-    .destaque-banner img{
+    .destaque-slide{
+      position:absolute;
+      inset:0;
+      margin:0;
+      opacity:0;
+      visibility:hidden;
+      transition:opacity .7s ease,visibility .7s ease;
+      background:#050509;
+    }
+
+    .destaque-slide.active{
+      opacity:1;
+      visibility:visible;
+      z-index:1;
+    }
+
+    .destaque-slide img{
       width:100%;
+      height:100%;
       display:block;
-      object-fit:contain;
+      object-fit:cover;
+      user-select:none;
+    }
+
+    .destaque-caption{
+      position:absolute;
+      left:18px;
+      bottom:18px;
+      z-index:3;
+      margin:0;
+      padding:8px 14px;
+      border-radius:999px;
+      color:#fff;
+      background:rgba(0,0,0,.68);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter:blur(8px);
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      pointer-events:none;
+    }
+
+    .destaque-arrow{
+      position:absolute;
+      top:50%;
+      z-index:5;
+      transform:translateY(-50%);
+      width:44px;
+      height:44px;
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:50%;
+      color:#fff;
+      background:rgba(0,0,0,.58);
+      font-size:1.45rem;
+      cursor:pointer;
+      transition:background .2s,transform .2s,border-color .2s;
+    }
+
+    .destaque-arrow:hover,
+    .destaque-arrow:focus-visible{
+      background:rgba(255,255,0,.9);
+      color:#000;
+      border-color:var(--amarelo);
+      transform:translateY(-50%) scale(1.06);
+      outline:none;
+    }
+
+    .destaque-arrow.prev{left:14px;}
+    .destaque-arrow.next{right:14px;}
+
+    .destaque-dots{
+      position:absolute;
+      z-index:5;
+      left:50%;
+      bottom:20px;
+      transform:translateX(-50%);
+      display:flex;
+      gap:9px;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(7px);
+    }
+
+    .destaque-dot{
+      width:10px;
+      height:10px;
+      padding:0;
+      border:0;
+      border-radius:50%;
+      background:rgba(255,255,255,.45);
+      cursor:pointer;
+      transition:width .2s,background .2s,box-shadow .2s;
+    }
+
+    .destaque-dot.active{
+      width:28px;
+      border-radius:999px;
+      background:var(--amarelo);
+      box-shadow:0 0 12px rgba(255,255,0,.75);
+    }
+
+    .destaque-progress{
+      position:absolute;
+      z-index:4;
+      left:0;
+      bottom:0;
+      height:3px;
+      width:0;
+      background:var(--amarelo);
+      box-shadow:0 0 9px rgba(255,255,0,.8);
+    }
+
+    .destaque-progress.running{
+      animation:destaqueTempo 3s linear forwards;
+    }
+
+    @keyframes destaqueTempo{
+      from{width:0;}
+      to{width:100%;}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .destaque-slide{transition:none;}
+      .destaque-progress{display:none;}
     }
 
     /* ===== Galeria / Slideshow ===== */
@@ -582,7 +713,7 @@
       }
 
       .frame{
-        padding:88px 12px 10px;
+        padding:18px 12px 10px;
       }
 
       .frame::before{
@@ -594,8 +725,8 @@
       }
 
       .brasao-header{
-        top:8px;
-        height:90px;
+        width:96px;
+        height:88px;
       }
 
       .frame-header{
@@ -603,9 +734,23 @@
       }
 
       .header-top-row{
-        flex-direction:column;
-        align-items:flex-start;
+        display:grid;
+        grid-template-columns:1fr auto;
+        align-items:center;
         gap:10px;
+      }
+
+      .header-brand{
+        grid-column:2;
+        grid-row:1 / span 2;
+        min-width:100px;
+      }
+
+      .header-right{
+        grid-column:1 / -1;
+        align-items:flex-start;
+        flex-direction:row;
+        flex-wrap:wrap;
       }
 
       .header-left{
@@ -630,6 +775,35 @@
         height:var(--banner-max-h-sm);
       }
 
+      .destaque-banner{
+        min-height:0;
+        border-radius:16px;
+      }
+
+      .destaque-caption{
+        left:12px;
+        bottom:12px;
+        max-width:calc(100% - 120px);
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        font-size:.7rem;
+        padding:6px 10px;
+      }
+
+      .destaque-dots{
+        bottom:12px;
+        left:auto;
+        right:12px;
+        transform:none;
+      }
+
+      .destaque-arrow{
+        width:38px;
+        height:38px;
+        font-size:1.2rem;
+      }
+
       .link-section{
         justify-content:center;
         gap:14px;
@@ -652,12 +826,12 @@
 
     @media (max-width:600px){
       .frame{
-        padding:96px 10px 10px;
+        padding:16px 10px 10px;
       }
 
       .brasao-header{
-        top:10px;
-        height:82px;
+        width:78px;
+        height:72px;
       }
 
       .section-title{
@@ -679,6 +853,19 @@
         font-size:1.5rem;
         padding:6px 10px;
       }
+
+      .destaque-caption{
+        display:none;
+      }
+
+      .destaque-dots{
+        left:50%;
+        right:auto;
+        transform:translateX(-50%);
+      }
+
+      .destaque-arrow.prev{left:8px;}
+      .destaque-arrow.next{right:8px;}
     }
   </style>
 </head>
@@ -703,9 +890,6 @@
 <div id="siteConteudo">
   <div class="app-shell">
     <div class="frame">
-      <!-- brasão central na moldura -->
-      <img src="brasao18.png" alt="Brasão 18º BPM/I" class="brasao-header">
-
       <!-- Cabeçalho -->
       <header class="frame-header">
         <div class="header-top-row">
@@ -714,6 +898,9 @@
             <p class="subtitulo-sistema">
               Sistema de gestão operacional e administrativa com acesso controlado.
             </p>
+          </div>
+          <div class="header-brand">
+            <img src="brasao18.png" alt="Brasão 18º BPM/I" class="brasao-header">
           </div>
           <div class="header-right">
             <span class="badge-sistema">Sistema de Gestão • Uso Interno</span>
@@ -819,11 +1006,28 @@
           </div>
         </section>
 
-        <!-- Destaques (menor) -->
-        <section class="destaque-section">
-          <h2 class="section-title destaque-title">Destaques do mês</h2>
-          <div class="destaque-banner">
-            <img src="pmdomes.png" alt="Policial(es) do mês">
+        <!-- Destaques do mês -->
+        <section class="destaque-section" aria-labelledby="titulo-destaques">
+          <h2 class="section-title destaque-title" id="titulo-destaques">Destaques do mês</h2>
+          <p class="section-sub">Reconhecimento aos policiais e às ações que se destacaram na 2ª Companhia.</p>
+          <div class="destaque-banner" id="destaqueSlideshow" role="region" aria-roledescription="carrossel" aria-label="Destaques do mês" tabindex="0">
+            <figure class="destaque-slide active">
+              <img src="destaque-pm-julho.png" alt="Policiais do mês de julho: CB PM Kerolyn e CB PM Berbert" loading="eager">
+              <figcaption class="destaque-caption">Policiais do mês • Julho 2026</figcaption>
+            </figure>
+            <figure class="destaque-slide">
+              <img src="destaque-ocorrencia-julho.png" alt="Ocorrência destaque do mês de julho: CB PM Augusto e CB PM Roberto" loading="lazy">
+              <figcaption class="destaque-caption">Ocorrência destaque • Julho 2026</figcaption>
+            </figure>
+            <figure class="destaque-slide">
+              <img src="destaque-administrativo.png" alt="Policial administrativo do mês: 1º SGT PM Melo" loading="lazy">
+              <figcaption class="destaque-caption">Policial administrativo do mês</figcaption>
+            </figure>
+
+            <button class="destaque-arrow prev" id="destaquePrev" type="button" aria-label="Destaque anterior">&#10094;</button>
+            <button class="destaque-arrow next" id="destaqueNext" type="button" aria-label="Próximo destaque">&#10095;</button>
+            <div class="destaque-dots" id="destaqueDots" aria-label="Selecionar destaque"></div>
+            <div class="destaque-progress" id="destaqueProgress" aria-hidden="true"></div>
           </div>
         </section>
 
@@ -854,7 +1058,7 @@
       </main>
 
       <div class="frame-footer">
-        &copy; 2025 - 18º Batalhão da Polícia Militar do Interior • 2ª Companhia
+        &copy; 2026 - 18º Batalhão da Polícia Militar do Interior • 2ª Companhia
       </div>
     </div>
   </div>
@@ -1054,7 +1258,7 @@ if (userStored) {
   loginBox.style.display = "flex";
 }
 
-document.getElementById("formLogin").addEventListener("submit", async (e) => {
+document.getElementById("formLogin").addEventListener("submit", (e) => {
   e.preventDefault();
   const uRaw = document.getElementById("usuario").value.trim();
   const u = uRaw.toLowerCase();
@@ -1063,12 +1267,12 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
   if (usuarios[u] && usuarios[u] === s) {
     sessionStorage.setItem("authUser", u);
     pushLog("login_sucesso", { user: u });
-    await registrarAcesso({ usuario: u, sucesso: true, extra: 'login_ok', evento: 'login_sucesso' });
     mostrarSite(u);
+    registrarAcesso({ usuario: u, sucesso: true, extra: 'login_ok', evento: 'login_sucesso' });
   } else {
     erro.textContent = "Usuário ou senha incorretos.";
     pushLog("login_falha", { user: u });
-    await registrarAcesso({ usuario: u || '(vazio)', sucesso: false, extra: 'senha_invalida', evento: 'login_falha' });
+    registrarAcesso({ usuario: u || '(vazio)', sucesso: false, extra: 'senha_invalida', evento: 'login_falha' });
   }
 });
 
@@ -1083,11 +1287,11 @@ function mostrarSite(u){
   }
 }
 
-async function sair() {
+function sair() {
   const u = sessionStorage.getItem("authUser");
   if (u) {
     pushLog("logout", { user: u });
-    await registrarAcesso({ usuario: u, sucesso: true, extra: 'logout', evento: 'logout' });
+    registrarAcesso({ usuario: u, sucesso: true, extra: 'logout', evento: 'logout' });
   }
   sessionStorage.clear();
   location.reload();
@@ -1122,6 +1326,7 @@ function pushLog(evento, extra={}){
 const AUDIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwMJGNOgtKFLTp7RJKFgFE_j_5UbvX196uEj21_MI3l524flrc9fXgVZkTszr26SH8MFg/exe';
 
 async function logAcessoRemoto({ usuario, sucesso, page = location.pathname, extra = '', evento = '' }) {
+  if (location.protocol === 'file:' || !navigator.onLine) return false;
   try {
     const payload = {
       usuario: String(usuario || '').trim(),
@@ -1130,14 +1335,20 @@ async function logAcessoRemoto({ usuario, sucesso, page = location.pathname, ext
       page,
       extra: extra || evento || ''
     };
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2500);
     await fetch(AUDIT_ENDPOINT, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
+    return true;
   } catch (e) {
     console.warn('Falha ao registrar no servidor:', e);
+    return false;
   }
 }
 
@@ -1246,7 +1457,84 @@ $clear?.addEventListener("click", ()=>{
   }
 });
 
-/* ================== Slideshow ================== */
+/* ================== Destaques do mês: 3 segundos ================== */
+(function(){
+  const root = document.getElementById('destaqueSlideshow');
+  if (!root) return;
+
+  const slides = Array.from(root.querySelectorAll('.destaque-slide'));
+  const dotsWrap = document.getElementById('destaqueDots');
+  const progress = document.getElementById('destaqueProgress');
+  const btnPrev = document.getElementById('destaquePrev');
+  const btnNext = document.getElementById('destaqueNext');
+  const DURATION = 3000;
+  let index = 0;
+  let timer = null;
+  let touchStartX = null;
+
+  slides.forEach((slide, i) => {
+    slide.setAttribute('aria-hidden', i === 0 ? 'false' : 'true');
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'destaque-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Exibir destaque ${i + 1} de ${slides.length}`);
+    dot.addEventListener('click', () => goTo(i, true));
+    dotsWrap.appendChild(dot);
+  });
+
+  const dots = Array.from(dotsWrap.children);
+
+  function animateProgress(){
+    progress.classList.remove('running');
+    void progress.offsetWidth;
+    progress.classList.add('running');
+  }
+
+  function setActive(i){
+    slides.forEach((slide, k) => {
+      const active = k === i;
+      slide.classList.toggle('active', active);
+      slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
+    dots.forEach((dot, k) => {
+      const active = k === i;
+      dot.classList.toggle('active', active);
+      dot.setAttribute('aria-current', active ? 'true' : 'false');
+    });
+    animateProgress();
+  }
+
+  function next(){ index = (index + 1) % slides.length; setActive(index); }
+  function prev(){ index = (index - 1 + slides.length) % slides.length; setActive(index); }
+  function stop(){ if (timer) clearInterval(timer); timer = null; progress.classList.remove('running'); }
+  function start(){ stop(); animateProgress(); timer = setInterval(next, DURATION); }
+  function restart(){ start(); }
+  function goTo(i, reset){ index = (i + slides.length) % slides.length; setActive(index); if (reset) restart(); }
+
+  btnNext.addEventListener('click', () => { next(); restart(); });
+  btnPrev.addEventListener('click', () => { prev(); restart(); });
+  root.addEventListener('mouseenter', stop);
+  root.addEventListener('mouseleave', start);
+  root.addEventListener('focusin', stop);
+  root.addEventListener('focusout', start);
+  root.addEventListener('keydown', event => {
+    if (event.key === 'ArrowRight') { event.preventDefault(); next(); restart(); }
+    if (event.key === 'ArrowLeft') { event.preventDefault(); prev(); restart(); }
+  });
+  root.addEventListener('touchstart', event => { touchStartX = event.changedTouches[0].clientX; }, {passive:true});
+  root.addEventListener('touchend', event => {
+    if (touchStartX === null) return;
+    const delta = event.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(delta) > 45) delta < 0 ? next() : prev();
+    touchStartX = null;
+    restart();
+  }, {passive:true});
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+
+  start();
+})();
+
+/* ================== Galeria de fotos ================== */
 (function(){
   const slideshow = document.getElementById('slideshow');
   if (!slideshow) return;
